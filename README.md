@@ -1,7 +1,7 @@
-# Multiverse
+# MultiVERSE
 Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks. 
 
-So far, you can find in this repository:
+You can find in this repository:
 
 * *GenerateSimMatrix.R:* Script that computes RWR scores taking as a seed every 
 individual node of the input network. These scores are used to build a N x N 
@@ -16,7 +16,6 @@ edgelist format and transforms then to the multiplex format required as input
 in the *GenerateSimMatrix.R* script.
 * *Functions_RWRMH.R:* An R file containing the functions to perform RWR on 
 multiplex networks used by the *GenerateSimMatrix.R* script.
-* *OldScripts:* A folder containing former scripts. 
 * *Networks:* A folder contaning some input networks in edgelist format and others with the format required as input for the 
 *GenerateSimMatrix.R* script.
 
