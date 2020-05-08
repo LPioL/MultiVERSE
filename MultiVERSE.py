@@ -9,28 +9,21 @@ Created on Wed Jul 24 11:09:00 2019
 import subprocess
 import numpy as np
 import argparse
-from MNE_LP_v2 import load_network_data
 import os
-import datetime
 import rpy2.robjects as robjects
 import networkx as nx
-from evalne.methods import similarity
-from evalne.evaluation.evaluator import LPEvaluator
-from evalne.evaluation.split import EvalSplit
-from evalne.evaluation.score import Scoresheet
-from openne.node2vec import Node2vec
-from openne.line import LINE
-from openne.graph import Graph as Gr
 import functions as f
 from sklearn.linear_model import LogisticRegressionCV 
 import pandas as pd
-
 import gc
 
 
 
 def main(args=None):
                
+    parser = argparse.ArgumentParser(description='k-fold cross validation')
+    parser.add_argument('-k', type=int, help='kfold')
+    args = parser.parse_args(args)
     Test_networks = ['./Dataset/Lazega-Law-Firm_multiplex.edges']
     graph_path = Test_networks[args.k]
     
@@ -61,9 +54,9 @@ def main(args=None):
               '-n', '../Dataset/'+Test_networks[args.k], '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
     
-    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-              '-n', '../Dataset/'+Test_networks[args.k], '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
+#    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
+#              '-n', '../Dataset/'+Test_networks[args.k], '-o', \
+#              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
     proc.wait() 
     pid = proc.pid 
