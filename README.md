@@ -12,7 +12,11 @@ In order to use MultiVERSE, you need the entworks to be to be in extended edgeli
 **MultiVERSE_M.py**
 The usage is the following:
 
-`python3 MultiVERSE_M.py -k number`
+`python3 MultiVERSE_M.py -k [options]`
+
+          Options:
+                 -k NUMERIC
+                   Value of the position of the networks in the list 'Test_Networks'
 
 ## MultiVERSE on multiplex-heterogeneous network: 
 
@@ -20,7 +24,11 @@ The usage is the following:
 
 The usage is the following:
 
-`python3 MultiVERSE_MH.py -k number`
+`python3 MultiVERSE_MH.py -k [options]`
+
+          Options:
+                 -k NUMERIC
+                   Value of the position of the networks in the list 'Test_Networks'
 
 ## Usage of the RWR files: 
 
