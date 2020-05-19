@@ -5,8 +5,8 @@ You can find in this repository the necessary files to use MultiVERSE for multip
 In order to use MultiVERSE, you need the entworks to be to be in extended edgelist format:
 
             edge_type source target weight
-                       r1         n1    n2    1
-                       r2         n2    n3    1        
+              r1         n1    n2    1
+              r2         n2    n3    1        
          
 
 ## MultiVERSE on multiplex network: 
