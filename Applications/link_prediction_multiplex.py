@@ -22,7 +22,7 @@ from evalne.utils import preprocess as pp
 from openne.node2vec import Node2vec
 from openne.line import LINE
 from openne.graph import Graph as Gr
-import functions_tricks_numba as fnumba
+import functions as fnumba
 from sklearn.linear_model import LogisticRegressionCV 
 import pandas as pd
 from evalne.evaluation.score import Scoresheet
