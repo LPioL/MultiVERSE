@@ -2,6 +2,27 @@
 Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks. 
 
 You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding.
+In order to use MultiVERSE, you need the entworks to be to be in extended edgelist format:
+          edge_type source target weight
+             r1         n1    n2    1
+             r2         n2    n3    1
+
+## MultiVERSE on multiplex network: 
+             
+**MultiVERSE_M.py**
+The usage is the following:
+
+`python3 MultiVERSE_M.py -k number`
+
+## MultiVERSE on multiplex-heterogeneous network: 
+
+**MultiVERSE_MH.py**
+
+The usage is the following:
+
+`python3 MultiVERSE_MH.py -k number`
+
+## Usage of the RWR files: 
 
 In the RWR folder, you will find:
 * *GenerateSimMatrix.R:* Script that computes RWR scores taking as a seed every 
@@ -20,7 +41,6 @@ multiplex networks used by the *GenerateSimMatrix.R* script.
 * *Networks:* A folder contaning some input networks in edgelist format and others with the format required as input for the 
 *GenerateSimMatrix.R* script.
 
-## Usage: 
 
 **1.- GenerateSimMatrix.R**
 
