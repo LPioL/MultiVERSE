@@ -31,7 +31,7 @@ from evalne.evaluation.score import Scoresheet
 
 def main(args=None):
         
-        parser = argparse.ArgumentParser(description='k-fold cross validation')
+    parser = argparse.ArgumentParser(description='k-fold cross validation')
     parser.add_argument('-k', type=int, help='kfold')
     args = parser.parse_args(args)
     print(args)
