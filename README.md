@@ -1,8 +1,9 @@
 # MultiVERSE
 Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks. 
 
-You can find in this repository:
+You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding.
 
+In the RWR folder, you will find:
 * *GenerateSimMatrix.R:* Script that computes RWR scores taking as a seed every 
 individual node of the input network. These scores are used to build a N x N 
 matrix,where N is the number of nodes of the input network. The goal is to apply 
