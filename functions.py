@@ -117,6 +117,7 @@ def preprocess(inpath, outpath, delimiter, directed, relabel, del_self_loops):
     # Return the preprocessed graph
     return G
 
+# from evalNE
 def eval_baselines(nee, directed, scoresheet):
     """
     Experiment to test the baselines.
@@ -138,6 +139,7 @@ def eval_baselines(nee, directed, scoresheet):
             result = nee.evaluate_baseline(method=method)
             scoresheet.log_results(result)
 
+# from evalNE
 def eval_other(nee, edge_emb):
     """
     Experiment to test other embedding methods not integrated in the library.
@@ -235,7 +237,7 @@ def netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES):
         nodes = nodes - np.ones(len(nodes), dtype=int)
     nodesstr = [str(i) for i in nodes]
     
-    # 
+ 
     list_neighbours = []
     reverse_data_DistancematrixPPI = []
     for i in range(node_size):
