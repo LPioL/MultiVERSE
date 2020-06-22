@@ -82,7 +82,7 @@ def main(args=None):
         ######################################################################## 
 
     nodes= np.asarray(nodes)
-    embeddings = functions.traintrain(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
+    embeddings = functions.train(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings'),embeddings)
 
