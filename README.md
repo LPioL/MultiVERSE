@@ -2,7 +2,7 @@
 Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks. 
 
 You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding.
-In order to use MultiVERSE, you need the entworks to be to be in extended edgelist format:
+In order to use MultiVERSE, you need the networks to be in extended edgelist format:
 
             edge_type source target weight
               r1         n1    n2    1
