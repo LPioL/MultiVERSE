@@ -39,8 +39,6 @@ def main(args=None):
     NB_CHUNK = np.int64(1)
     CHUNK_SIZE = np.int64(10)
     NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
-
-    # LOAD GRAPH FOR EVALNE
     graph_name = os.path.basename(graph_path)  
 
 
