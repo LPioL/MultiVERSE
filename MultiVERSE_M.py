@@ -24,7 +24,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(description='k-fold cross validation')
     parser.add_argument('-k', type=int, help='kfold')
     args = parser.parse_args(args)
-    Test_networks = ['./Dataset/Lazega-Law-Firm_multiplex.edges']
+    Test_networks = ['./Dataset/Multiplex/Lazega-Law-Firm_multiplex.edges']
     graph_path = Test_networks[args.k]
     
     ########################################################################
