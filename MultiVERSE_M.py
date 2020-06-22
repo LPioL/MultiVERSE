@@ -53,10 +53,6 @@ def main(args=None):
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
               '-n', '../Dataset/'+Test_networks[args.k], '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
-    
-#    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-#              '-n', '../Dataset/'+Test_networks[args.k], '-o', \
-#              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
     proc.wait() 
     pid = proc.pid 
