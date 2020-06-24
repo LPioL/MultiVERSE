@@ -14,11 +14,15 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
 **MultiVERSE_M.py**
 The usage is the following:
 
-`python3 MultiVERSE_M.py -k [options]`
+`python3 MultiVERSE_M.py [options]`
 
           Options:
                  -k NUMERIC
                    Value of the position of the networks in the list 'Test_Networks'
+
+To use the example, you can write in a terminal the following command:
+
+`python3 MultiVERSE_M.py -k 0`
 
 ## MultiVERSE on multiplex-heterogeneous network: 
 
@@ -26,11 +30,41 @@ The usage is the following:
 
 The usage is the following:
 
-`python3 MultiVERSE_MH.py -k [options]`
+`python3 MultiVERSE_MH.py [options] `
 
           Options:
-                 -k NUMERIC
-                   Value of the position of the networks in the list 'Test_Networks'
+
+      		 -n CHARACTER
+          Path to the first multiplex network to be used as Input. 
+          It should be a space separated four column file containing 
+          the fields: edge_type, source, target and weight.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+       	-m CHARACTER
+          Path to the second multiplex network to be used as Input. 
+          It should be a space separated four column file containing 
+          the fields: edge_type, source, target and weight.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+       	-b CHARACTER
+          Path to the bipartite network to be used as Input. 
+          It should be a space separated four column file containing 
+          the fields: edge_type, source, target and weight. Source Nodes
+          should be the ones from the first multiplex and target nodes
+          from the second.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+To use the example, you can write in a terminal the following command:
+
+`python3 MultiVERSE_MH.py -n /Multiplex_Het/Multiplex_1.txt \
+			   -m ./Multiplex_Het/Multiplex_2.txt \
+			   -b ./Multiplex_Het/heterogeneous_graph.txt`
 
 ## Usage of the RWR files: 
 

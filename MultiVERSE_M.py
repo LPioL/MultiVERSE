@@ -13,7 +13,6 @@ import os
 import rpy2.robjects as robjects
 import networkx as nx
 import functions as f
-from sklearn.linear_model import LogisticRegressionCV 
 import pandas as pd
 import gc
 
@@ -21,10 +20,10 @@ import gc
 
 def main(args=None):
                
-    parser = argparse.ArgumentParser(description='k-fold cross validation')
-    parser.add_argument('-k', type=int, help='kfold')
+    parser = argparse.ArgumentParser(description='Position of the test networks')
+    parser.add_argument('-k', type=int, help='Test network')
     args = parser.parse_args(args)
-    Test_networks = ['./Dataset/Multiplex/Lazega-Law-Firm_multiplex.edges']
+    Test_networks = ['./Dataset/Multiplex/CKM-Physicians-Innovation_multiplex.edges']
     graph_path = Test_networks[args.k]
     
     ########################################################################
@@ -44,12 +43,13 @@ def main(args=None):
 
  
     ###################################################################################"
-    # MULTIVERSE
+    # MULTIVERSE-M
     ###################################################################################"
     r_readRDS = robjects.r['readRDS']
     
+    print('RWR-M')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
-              '-n', '../Dataset/'+Test_networks[args.k], '-o', \
+              '-n', '../Dataset/Multiplex/'+Test_networks[args.k], '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
     proc.wait() 
@@ -87,6 +87,8 @@ def main(args=None):
     np.save(str('embeddings'),embeddings)
 
     print('End')
+
+
 
 if __name__ == "__main__":
     main()

@@ -17,25 +17,24 @@ import os
 import datetime
 import rpy2.robjects as robjects
 import networkx as nx
-from evalne.evaluation.evaluator import LPEvaluator
-from evalne.evaluation.score import Scoresheet
 import functions as f
-from sklearn.linear_model import LogisticRegressionCV 
-from evalne.evaluation.split import EvalSplit
 import pandas as pd
 import networkx as nx
 
 
 def main(args=None):
         
-    parser = argparse.ArgumentParser(description='k-fold cross validation')
-    parser.add_argument('-k', type=int, help='kfold')
+    parser = argparse.ArgumentParser(description='Path of networks')
+    parser.add_argument('-n', type=int, help='Multiplex 1')
+    parser.add_argument('-m', type=int, help='Multiplex 2')    
+    parser.add_argument('-b', type=int, help='Bipartite')        
+    
     args = parser.parse_args(args)
     print(args)
     
-    Test_networks = ['./Multiplex_Het/relabeled_curated_gene_disease_associations_MESH.csv',
-                     './Multiplex_Het/relabeled_multiplex_disease.txt',
-                     './Multiplex_Het/relabeled_multiplex_without_Coexp.edges'] 
+    Test_networks = ['./Multiplex_Het/heterogeneous_graph.txt',
+                     './Multiplex_Het/Multiplex_1.txt',
+                     './Multiplex_Het/Multiplex_2.txt'] 
 
 
 
@@ -53,25 +52,27 @@ def main(args=None):
     NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
     graph_name = 'test_disease_gene'
     
-    ##################################################################################
-    # !! Careful !! Check if nodes in the bipartite have the same nodes int he multiplex
-    # networks
-    ##################################################################################
     
-
     
+    
+    ##################################################################################
+    # !! Careful !! 
+    # Check if nodes in the bipartite have the same nodes in the multiplex
+    # networks. If not you have to remove the nodes in the multiplexes not included in the  
+    # bipartites
+    ##################################################################################
     
 
     ###################################################################################"
-    # MULTIVERSE
+    # MULTIVERSE-MH
     ###################################################################################"
     r_readRDS = robjects.r['readRDS']
     
-    print('RWR')
-    proc = subprocess.Popen(['Rscript',  './Multiverse-master_MH/GenerateSimMatrix_MH.R', \
-              '-n', '.'+ Test_networks[2],  \
-              '-m', '.'+ Test_networks[1],  \
-              '-b', '.' + Test_networks[1], 
+    print('RWR-MH')
+    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
+              '-n', n,  \
+              '-m', m,  \
+              '-b', b, 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
 
     proc.wait()
@@ -109,7 +110,6 @@ def main(args=None):
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings'),embeddings)
-
 
 
 
