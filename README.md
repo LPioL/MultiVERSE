@@ -8,6 +8,7 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
               r1         n1    n2    1
               r2         n2    n3    1        
          
+## Requirements 
 
 ## MultiVERSE on multiplex network: 
              
@@ -62,8 +63,8 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 MultiVERSE_MH.py -n /Multiplex_Het/Multiplex_1.txt \
-			   -m ./Multiplex_Het/Multiplex_2.txt \
+`python3 MultiVERSE_MH.py -n /Multiplex_Het/Multiplex_1.txt 
+			   -m ./Multiplex_Het/Multiplex_2.txt 
 			   -b ./Multiplex_Het/heterogeneous_graph.txt`
 
 ## Usage of the RWR files: 
