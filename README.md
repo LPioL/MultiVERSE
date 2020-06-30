@@ -10,6 +10,23 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
          
 ## Requirements 
 
+Python 3:
+* rpy2
+* gensim (fast_version enabled)
+* networkx
+* numba>0.44.0
+
+
+R>=3.6.1:
+* devtools
+* graph
+* mclust
+* kernlab
+* R.matlab
+* bc3net
+* optparse
+* tidyverse
+
 ## MultiVERSE on multiplex network: 
              
 **MultiVERSE_M.py**
