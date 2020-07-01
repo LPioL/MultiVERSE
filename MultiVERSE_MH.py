@@ -50,7 +50,7 @@ def main(args=None):
     NB_CHUNK = np.int64(1)
     CHUNK_SIZE = np.int64(100)
     NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
-    graph_name = 'test_disease_gene'
+    graph_name = 'test_MH'
     
     
     
@@ -120,7 +120,6 @@ if __name__ == "__main__":
     
     
   
-
 
 
 
