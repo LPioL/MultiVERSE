@@ -15,6 +15,7 @@ Python 3:
 * gensim (fast_version enabled)
 * networkx
 * numba>0.44.0
+* sklearn (for evaluation)
 
 
 R>=3.6.1:
@@ -84,6 +85,47 @@ To use the example, you can write in a terminal the following command:
 			   -m ./Dataset/Multiplex_Het/Multiplex_2.txt
 			   -b ./Dataset/Multiplex_Het/heterogeneous_graph.txt`
 
+**Eval_MultiVERSE_MH.py**
+
+
+The usage is the following:
+
+`python3 Eval_MultiVERSE_MH.py [options] `
+
+          Options:
+
+      		 -n CHARACTER
+          Path to the first multiplex network to be used as Input.
+          It should be a space separated four column file containing
+          the fields: edge_type, source, target and weight.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+       	-m CHARACTER
+          Path to the second multiplex network to be used as Input.
+          It should be a space separated four column file containing
+          the fields: edge_type, source, target and weight.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+       	-b CHARACTER
+          Path to the bipartite network to be used as Input.
+          It should be a space separated four column file containing
+          the fields: edge_type, source, target and weight. Source Nodes
+          should be the ones from the first multiplex and target nodes
+          from the second.
+            edge_type source target weight
+             r1        n1    n2    1
+             r2        n2    n3    1
+
+To use the example, you can write in a terminal the following command:
+
+`python3 Eval_MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/Multiplex_1.txt
+			   -m ./Dataset/Multiplex_Het/Multiplex_2.txt
+			   -b ./Dataset/Multiplex_Het/heterogeneous_graph.txt`
+			   
 ## Usage of the RWR files:
 
 In the RWR folder, you will find:

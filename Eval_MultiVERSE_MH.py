@@ -26,9 +26,7 @@ import pandas as pd
 import networkx as nx
 
 
-def main(args=None):
-        
-    
+           
 def main(args=None):
         
     parser = argparse.ArgumentParser(description='Path of networks')
@@ -65,21 +63,62 @@ def main(args=None):
                         multi_class='ovr', n_jobs=42, random_state=None, refit=True, scoring='roc_auc', solver=solver, tol=0.0001, verbose=0) 
     
     # Load graph for EvalNE
-    graph_name = 'LP_drug_gene'
+    graph_name = 'Test_Eval'
     
     
+        
+    # !! Careful !! 
+    # Check if nodes in the bipartite have the same nodes in the multiplex
+    # networks. If not you have to remove the nodes in the multiplexes not included in the  
+    # bipartites
+    ##################################################################################
     
-    ###################################################################################"
+    ###################################################################################
+    # EvalNE Link prediction processing
+    ###################################################################################
+
+    G_hetereogeneous = f.preprocess(args.b, '.', ' ', False,  False, True)
+    print('Preprocessing done')
+    G_hetereogeneous_traintest_split = EvalSplit()
+    G_hetereogeneous_traintest_split.compute_splits(G_hetereogeneous, split_alg=split_alg, train_frac=train_frac, owa=False)
+    nee = LPEvaluator(G_hetereogeneous_traintest_split, dim=EMBED_DIMENSION, lp_model=lp_model)
+    G_heterogeneous_split = (G_hetereogeneous_traintest_split.TG)
+    print('Splitting done')
+    # Write the multiplex training graph for multiverse in extended edgelist format 'layer n1 n2 weight'
+    file_multi = open('heterogeneous_graph_' + 'processed' + '_'+ graph_name, 'w+')  
+    tmp_array_het = []
+    
+    tmp_array_het = np.asarray(multiplex_het_relabelled[0])
+    for i in range(len(tmp_array_het[:,0])):
+        if tmp_array_het[i,0] in list(multiplex_het_relabelled[0][1]):
+            tmp = tmp_array_het[i,0]
+            tmp_array_het[i,0] = tmp_array_het[i,1]
+            tmp_array_het[i,1] = tmp
+            
+    
+    tmp_array_het = np.hstack((tmp_array_het, np.ones((len(tmp_array_het),1))))
+    tmp_array_het = np.hstack((np.ones((len(tmp_array_het),1)), tmp_array_het))
+    tmp_array_het = np.vstack(tmp_array_het)
+    tmp_array_het = np.int_(tmp_array_het)
+
+    
+    np.savetxt(file_multi, tmp_array_het, fmt='%s', delimiter=' ', newline=os.linesep)
+    
+    file_multi.close()
+
+    
+      
+    ###################################################################################
     # MULTIVERSE
-    ###################################################################################"
+    ###################################################################################
     r_readRDS = robjects.r['readRDS']
     
-    print('RWR')
-    proc = subprocess.Popen(['Rscript',  './Multiverse-master_MH/GenerateSimMatrix_MH.R', \
-              '-n', '.'+ Networks_for_embedding[1],  \
-              '-m', '.'+ Networks_for_embedding[2],  \
-              '-b', '../Save_graphs/'+ 'heterogeneous_graph_' + 'processed' + '_'+ graph_name+'.txt', '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
+    print('RWR-MH')
+    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
+              '-n', 'heterogeneous_graph_' + 'processed' + '_'+ graph_name,  \
+              '-m', args.m,  \
+              '-b', args.b, 
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
 
     proc.wait()
 
@@ -97,12 +136,8 @@ def main(args=None):
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr \
-     = fnumba.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
-     
-    np.save('nodes', nodes)
-    np.save('data', data_DistancematrixPPI)
-    np.save('nodesstr_drug', nodesstr)
-
+     = f.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
+    
 
         ########################################################################
         # Initialization
@@ -117,7 +152,7 @@ def main(args=None):
     neighborhood = np.asarray(neighborhood)
     nodes= np.asarray(nodes)
     
-    embeddings = fnumba.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
+    embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings'),embeddings)
     date = datetime.datetime.now()
