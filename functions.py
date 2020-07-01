@@ -259,7 +259,7 @@ def netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES):
     
     return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI,nodes_incomponent, neighborhood, nodesstr
      
-     def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
+def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
     
     # Number of nodes in the network and computation of neighborrhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)

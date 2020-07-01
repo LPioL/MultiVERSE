@@ -19,7 +19,7 @@ import rpy2.robjects as robjects
 import networkx as nx
 from evalne.evaluation.evaluator import LPEvaluator
 from evalne.evaluation.score import Scoresheet
-import functions_tricks_numba as fnumba
+import functions as f
 from sklearn.linear_model import LogisticRegressionCV 
 from evalne.evaluation.split import EvalSplit
 import pandas as pd

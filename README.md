@@ -81,9 +81,9 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/Multiplex_1.txt
-			   -m ./Dataset/Multiplex_Het/Multiplex_2.txt
-			   -b ./Dataset/Multiplex_Het/heterogeneous_graph.txt`
+`python3 MultiVERSE_MH.py -n ../Dataset/Multiplex_Het/Multiplex_1.txt \
+			  -m ../Dataset/Multiplex_Het/Multiplex_2.txt \
+			  -b ../Dataset/Multiplex_Het/heterogeneous_graph.txt`
 
 **Eval_MultiVERSE_MH.py**
 
@@ -122,9 +122,9 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 Eval_MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/Multiplex_1.txt
-			   -m ./Dataset/Multiplex_Het/Multiplex_2.txt
-			   -b ./Dataset/Multiplex_Het/heterogeneous_graph.txt`
+`python3 Eval_MultiVERSE_MH.py -n ../Dataset/Multiplex_Het/Multiplex_1.txt \
+			  -m ../Dataset/Multiplex_Het/Multiplex_2.txt \
+			  -b ../Dataset/Multiplex_Het/heterogeneous_graph.txt`
 			   
 ## Usage of the RWR files:
 
