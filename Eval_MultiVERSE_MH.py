@@ -67,6 +67,7 @@ def main(args=None):
     
     
         
+    ##################################################################################
     # !! Careful !! 
     # Check if nodes in the bipartite have the same nodes in the multiplex
     # networks. If not you have to remove the nodes in the multiplexes not included in the  
