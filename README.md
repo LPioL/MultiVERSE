@@ -1,5 +1,5 @@
 # MultiVERSE
-Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks. 
+Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks.
 
 You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding.
 In order to use MultiVERSE, you need the networks to be in extended edgelist format:
@@ -7,14 +7,28 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
             edge_type source target weight
               r1         n1    n2    1
               r2         n2    n3    1        
-         
-## Requirements 
 
-pandas
-rpy2
+## Requirements
 
-## MultiVERSE on multiplex network: 
-             
+Python 3:
+* rpy2
+* gensim (fast_version enabled)
+* networkx
+* numba>0.44.0
+
+
+R>=3.6.1:
+* devtools
+* graph
+* mclust
+* kernlab
+* R.matlab
+* bc3net
+* optparse
+* tidyverse
+
+## MultiVERSE on multiplex network:
+
 **MultiVERSE_M.py**
 The usage is the following:
 
@@ -28,7 +42,7 @@ To use the example, you can write in a terminal the following command:
 
 `python3 MultiVERSE_M.py -k 0`
 
-## MultiVERSE on multiplex-heterogeneous network: 
+## MultiVERSE on multiplex-heterogeneous network:
 
 **MultiVERSE_MH.py**
 
@@ -39,24 +53,24 @@ The usage is the following:
           Options:
 
       		 -n CHARACTER
-          Path to the first multiplex network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the first multiplex network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight.
             edge_type source target weight
              r1        n1    n2    1
              r2        n2    n3    1
 
        	-m CHARACTER
-          Path to the second multiplex network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the second multiplex network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight.
             edge_type source target weight
              r1        n1    n2    1
              r2        n2    n3    1
 
        	-b CHARACTER
-          Path to the bipartite network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the bipartite network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight. Source Nodes
           should be the ones from the first multiplex and target nodes
           from the second.
@@ -66,17 +80,17 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 MultiVERSE_MH.py -n /Multiplex_Het/Multiplex_1.txt 
-			   -m ./Multiplex_Het/Multiplex_2.txt 
-			   -b ./Multiplex_Het/heterogeneous_graph.txt`
+`python3 MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/Multiplex_1.txt
+			   -m ./Dataset/Multiplex_Het/Multiplex_2.txt
+			   -b ./Dataset/Multiplex_Het/heterogeneous_graph.txt`
 
-## Usage of the RWR files: 
+## Usage of the RWR files:
 
 In the RWR folder, you will find:
-* *GenerateSimMatrix.R:* Script that computes RWR scores taking as a seed every 
-individual node of the input network. These scores are used to build a N x N 
-matrix,where N is the number of nodes of the input network. The goal is to apply 
-network embedding methods on this matrix. To apply for monoplex and multiplex networks. 
+* *GenerateSimMatrix.R:* Script that computes RWR scores taking as a seed every
+individual node of the input network. These scores are used to build a N x N
+matrix,where N is the number of nodes of the input network. The goal is to apply
+network embedding methods on this matrix. To apply for monoplex and multiplex networks.
 For additional information about RWR on multiplex network, we refer to:
 <https://www.ncbi.nlm.nih.gov/pubmed/30020411>
 * *GenerateSimMatrix_MH.R:* This script is similar to the previous one but it can applied to a heterogeneous, a multiplex-heterogeneous or a full multiplex-heterogeneous network. The RWR scores are used to build a (N+M) x (N+M) matrix, where N and M are the number of nodes of the first and second network respectively. The goal is to apply network embedding methods on this matrix. For additional information about RWR
@@ -84,9 +98,9 @@ on heterogeneous and multiplex-heterogeneous network, we refer to: <https://www.
 * *EdgelistToMultiplex.R:* Script that takes as input monoplex networks on
 edgelist format and transforms then to the multiplex format required as input
 in the *GenerateSimMatrix.R* script.
-* *Functions_RWRMH.R:* An R file containing the functions to perform RWR on 
+* *Functions_RWRMH.R:* An R file containing the functions to perform RWR on
 multiplex networks used by the *GenerateSimMatrix.R* script.
-* *Networks:* A folder contaning some input networks in edgelist format and others with the format required as input for the 
+* *Networks:* A folder contaning some input networks in edgelist format and others with the format required as input for the
 *GenerateSimMatrix.R* script.
 
 
@@ -99,9 +113,9 @@ Type on the command line the following command:
     Options:
        -n CHARACTER, --network=CHARACTER
           Path to the multiplex network to be used as Input. It should be a  
-          space separated four column file containing the fields: 
+          space separated four column file containing the fields:
           edge_type, source, target and weight:
-          
+
           edge_type source target weight
              r1         n1    n2    1
              r2         n2    n3    1
@@ -117,7 +131,7 @@ Type on the command line the following command:
        Number of cores to be used for the Random Walk Calculation. [default= 1]
 
        -h, --help
-           Show this help message and exit 
+           Show this help message and exit
 
 *Example:* We compute the similarity matrix of the multiplex network generated in the example described in section 2 (below). In this case, we used 4 cores:
 
@@ -128,28 +142,28 @@ Type on the command line the following command:
 
 Type on the command line the following command:
 
-`Rscript GenerateSimMatrix_MH.R [options]` 
+`Rscript GenerateSimMatrix_MH.R [options]`
 
     Options:
        -n CHARACTER, --network1=CHARACTER
-          Path to the first multiplex network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the first multiplex network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight.
             edge_type source target weight
              r1        n1    n2    1
              r2        n2    n3    1
 
        -m CHARACTER, --network2=CHARACTER
-          Path to the second multiplex network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the second multiplex network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight.
             edge_type source target weight
              r1        n1    n2    1
              r2        n2    n3    1
 
        -b CHARACTER, --bipartite=CHARACTER
-          Path to the bipartite network to be used as Input. 
-          It should be a space separated four column file containing 
+          Path to the bipartite network to be used as Input.
+          It should be a space separated four column file containing
           the fields: edge_type, source, target and weight. Source Nodes
           should be the ones from the first multiplex and target nodes
           from the second.
@@ -184,27 +198,27 @@ Type on the command line the following command:
 
     Options:
         -n CHARACTER, --networks=CHARACTER
-            Path to the monoplex networks to be used as Inputs. They should be 
+            Path to the monoplex networks to be used as Inputs. They should be
             in edgelist format, with two or three column depending if edges are
-            weighted : source node, target node, weight (optional). If more than 
-            one network is provided, they should be separated by commas: 
-         
+            weighted : source node, target node, weight (optional). If more than
+            one network is provided, they should be separated by commas:
+
          source target weight
              n1    n2    1
              n2    n3    1
 
        -e CHARACTER, --edgeTypes=CHARACTER
            Names for the different layers (Usually the type of edge described by
-           the interactions). If more than one network is provided, they should 
-           be separated by commas. 
+           the interactions). If more than one network is provided, they should
+           be separated by commas.
 
        -o CHARACTER, --out=CHARACTER
            Name for the output file (The resulting multiplex network)
 
        -h, --help
            Show this help message and exit
-           
-*Example:* Use PPI and Pathway network from the RandomWalkRestartMH package 
+
+*Example:* Use PPI and Pathway network from the RandomWalkRestartMH package
 (<http://bioconductor.org/packages/release/bioc/html/RandomWalkRestartMH.html>)
 to generate a 2-layers multiplexnetwork output file
 
