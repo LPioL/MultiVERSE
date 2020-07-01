@@ -49,8 +49,8 @@ def main(args=None):
     
     print('RWR-M')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
-              '-n', '../Dataset/Multiplex/'+Test_networks[args.k], '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
+              '-n', "."+Test_networks[args.k], '-o', \
+              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','4'])
 
     proc.wait() 
     pid = proc.pid 
@@ -64,8 +64,8 @@ def main(args=None):
         ########################################################################
         # Processing of the network
         ########################################################################
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, nodesstr \
-     = f.netpreprocess_optimized(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, neighborhood, nodesstr \
+     = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
      
     np.save('nodes', nodes)
     np.save('data', data_DistancematrixPPI)
@@ -82,7 +82,7 @@ def main(args=None):
         ######################################################################## 
 
     nodes= np.asarray(nodes)
-    embeddings = functions.train(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
+    embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings'),embeddings)
 

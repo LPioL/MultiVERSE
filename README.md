@@ -10,6 +10,9 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
          
 ## Requirements 
 
+pandas
+rpy2
+
 ## MultiVERSE on multiplex network: 
              
 **MultiVERSE_M.py**

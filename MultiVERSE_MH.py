@@ -25,9 +25,9 @@ import networkx as nx
 def main(args=None):
         
     parser = argparse.ArgumentParser(description='Path of networks')
-    parser.add_argument('-n', type=int, help='Multiplex 1')
-    parser.add_argument('-m', type=int, help='Multiplex 2')    
-    parser.add_argument('-b', type=int, help='Bipartite')        
+    parser.add_argument('-n', type=str, help='Multiplex 1')
+    parser.add_argument('-m', type=str, help='Multiplex 2')    
+    parser.add_argument('-b', type=str, help='Bipartite')        
     
     args = parser.parse_args(args)
     print(args)
@@ -70,9 +70,9 @@ def main(args=None):
     
     print('RWR-MH')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-              '-n', n,  \
-              '-m', m,  \
-              '-b', b, 
+              '-n', args.n,  \
+              '-m', args.m,  \
+              '-b', args.b, 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
 
     proc.wait()
