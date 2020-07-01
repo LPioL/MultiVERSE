@@ -258,7 +258,85 @@ def netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES):
     reverse_data_DistancematrixPPI  = normalize(reverse_data_DistancematrixPPI[:,0:CLOSEST_NODES], axis=1, norm='l1')
     
     return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI,nodes_incomponent, neighborhood, nodesstr
+     
+     def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
+    
+    # Number of nodes in the network and computation of neighborrhood
+    rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
+    rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
+    node_size = np.shape(rawdata_DistancematrixPPI)[0]
+    neighborhood=[]
+    for i in range(node_size):
+        neighborhood.append(np.shape(np.extract(rawdata_DistancematrixPPI[i,:] > 1/node_size, rawdata_DistancematrixPPI[i,:]))[0])
+ 
+    
+    # If several components
+    mini = []
+
         
+    rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
+    # change the diagonal and keep track of nodes of other components
+    component=[]
+    for i in range( 0,np.shape(rawdata_DistancematrixPPI)[0]):
+        mini.append(np.min(rawdata_DistancematrixPPI[i,:][np.nonzero(rawdata_DistancematrixPPI[i,:])]))
+        rawdata_DistancematrixPPI[i,i]= mini[i]
+        rawdata_DistancematrixPPI[i,component]=mini[i]
+
+    
+    # to keep there
+    rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
+    
+
+    # Normalization 
+    rawdata_DistancematrixPPI  = normalize(rawdata_DistancematrixPPI, axis=1, norm='l1')
+    
+    if KL == True:
+
+        data_DistancematrixPPI = jsd_matrix(rawdata_DistancematrixPPI) 
+        np.save('jsd_ppi_tricks', data_DistancematrixPPI)
+        data_DistancematrixPPI=np.asarray(data_DistancematrixPPI)
+        data_DistancematrixPPI= 1 - data_DistancematrixPPI
+        data_DistancematrixPPI  = normalize(data_DistancematrixPPI, axis=1, norm='l1')   
+    
+    
+    else:
+       
+        data_DistancematrixPPI= rawdata_DistancematrixPPI
+    
+    
+    # Names of the nodes in the PPI network (a vocab in the sense of skipgram)
+    nodes = list(r_DistancematrixPPI.colnames)
+    nodes = [int(i) for i in nodes]
+    if nodes[0] == 1:
+        nodes = nodes - np.ones(len(nodes), dtype=int)
+    nodesstr = [str(i) for i in nodes]
+    
+    # Context = WINDOW_SIZE nodes the most similar/closest
+    DistancematrixPPI = pd.DataFrame(data_DistancematrixPPI, nodesstr, nodesstr )
+    
+    list_neighbours = []
+    reverse_data_DistancematrixPPI = []
+    for i in range(node_size):
+        sort_genes =data_DistancematrixPPI[i,:]
+        sort_values = sorted(sort_genes, reverse=True)
+        sort_genes = np.argsort(-sort_genes)
+        
+        reverse_data_DistancematrixPPI.append(sort_values)
+        list_neighbours.append(sort_genes)
+        
+    reverse_data_DistancematrixPPI=np.asarray(reverse_data_DistancematrixPPI)
+    list_neighbours = np.asarray(list_neighbours)
+    
+    if KL==True:
+        list_neighbours = np.delete(list_neighbours, 0,1)
+    
+
+    reverse_data_DistancematrixPPI  = reverse_data_DistancematrixPPI[:,0:CLOSEST_NODES]
+    reverse_data_DistancematrixPPI  = normalize(reverse_data_DistancematrixPPI, axis=1, norm='l1')
+    
+    return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr
+        
+   
 
 def loadGraphFromEdgeListTxt(graph, directed=True):
     with open(graph, 'r') as g:
