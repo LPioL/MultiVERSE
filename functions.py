@@ -14,7 +14,7 @@ from numpy.random import choice
 from sklearn.preprocessing import normalize
 import pandas as pd
 import networkx as nx
-
+from evalne.utils import preprocess as pp
 
 @njit
 def rand_choice_nb(arr, prob):

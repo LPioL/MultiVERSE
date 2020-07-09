@@ -15,11 +15,14 @@ import networkx as nx
 import functions as f
 import pandas as pd
 import gc
+import multiprocessing
+
 
 
 
 def main(args=None):
-               
+          
+    cpu_number = multiprocessing.cpu_count()     
     parser = argparse.ArgumentParser(description='Position of the test networks')
     parser.add_argument('-k', type=int, help='Test network')
     args = parser.parse_args(args)
@@ -50,7 +53,7 @@ def main(args=None):
     print('RWR-M')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
               '-n', "."+Test_networks[args.k], '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','4'])
+              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c',str(cpu_number)])
 
     proc.wait() 
     pid = proc.pid 

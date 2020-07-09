@@ -20,10 +20,11 @@ import networkx as nx
 import functions as f
 import pandas as pd
 import networkx as nx
-
+import multiprocessing
 
 def main(args=None):
         
+    cpu_number = multiprocessing.cpu_count()     
     parser = argparse.ArgumentParser(description='Path of networks')
     parser.add_argument('-n', type=str, help='Multiplex 1')
     parser.add_argument('-m', type=str, help='Multiplex 2')    
@@ -73,7 +74,7 @@ def main(args=None):
               '-n', args.n,  \
               '-m', args.m,  \
               '-b', args.b, 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number])
 
     proc.wait()
     proc.kill()

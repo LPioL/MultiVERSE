@@ -78,6 +78,8 @@ def main(args=None):
     # EvalNE Link prediction processing
     ###################################################################################
 
+    data_bipartite = pd.read_csv(args.b, delimiter = ' ', header = None) 
+    data_M1_drug = data_M1_drug.drop(columns = [0,3])
     G_hetereogeneous = f.preprocess(args.b, '.', ' ', False,  False, True)
     print('Preprocessing done')
     G_hetereogeneous_traintest_split = EvalSplit()
@@ -89,7 +91,7 @@ def main(args=None):
     file_multi = open('heterogeneous_graph_' + 'processed' + '_'+ graph_name, 'w+')  
     tmp_array_het = []
     
-    tmp_array_het = np.asarray(multiplex_het_relabelled[0])
+    tmp_array_het = np.asarray(G_heterogeneous_split.edges)
     for i in range(len(tmp_array_het[:,0])):
         if tmp_array_het[i,0] in list(multiplex_het_relabelled[0][1]):
             tmp = tmp_array_het[i,0]
