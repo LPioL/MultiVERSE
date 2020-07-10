@@ -24,10 +24,14 @@ from sklearn.linear_model import LogisticRegressionCV
 from evalne.evaluation.split import EvalSplit
 import pandas as pd
 import networkx as nx
+import multiprocessing
 
 
-           
+
+
 def main(args=None):
+          
+    cpu_number = multiprocessing.cpu_count()  
         
     parser = argparse.ArgumentParser(description='Path of networks')
     parser.add_argument('-n', type=str, help='Multiplex 1')
@@ -48,7 +52,7 @@ def main(args=None):
     ########################################################################
     EMBED_DIMENSION = 128
     CLOSEST_NODES = np.int64(300)
-    NUM_SAMPLED = np.int64(10)
+    NUM_SAMPLED = np.int64(10))
     LEARNING_RATE = np.float64(0.01)
     KL = False
     NB_CHUNK = np.int64(1)

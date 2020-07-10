@@ -13,20 +13,25 @@ In order to use MultiVERSE, you need the networks to be in extended edgelist for
 Python 3:
 * rpy2
 * gensim (fast_version enabled)
-* networkx
+* networkx=2.2
 * numba>0.44.0
-* sklearn (for evaluation)
+* scikit-learn=0.21.3 (for evaluation)
+* pandas
 
 
 R>=3.6.1:
 * devtools
-* graph
+* igraph
 * mclust
 * kernlab
 * R.matlab
 * bc3net
 * optparse
 * tidyverse
+
+A good way to set up the appropriate environement is to create one with anaconda:
+
+'conda create  --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib'
 
 ## MultiVERSE on multiplex network:
 
