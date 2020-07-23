@@ -83,7 +83,7 @@ def main(args=None):
     ###################################################################################
 
     data_bipartite = pd.read_csv(args.b, delimiter = ' ', header = None) 
-    data_M1_drug = data_M1_drug.drop(columns = [0,3])
+
     G_hetereogeneous = f.preprocess(args.b, '.', ' ', False,  False, True)
     print('Preprocessing done')
     G_hetereogeneous_traintest_split = EvalSplit()
@@ -91,18 +91,20 @@ def main(args=None):
     nee = LPEvaluator(G_hetereogeneous_traintest_split, dim=EMBED_DIMENSION, lp_model=lp_model)
     G_heterogeneous_split = (G_hetereogeneous_traintest_split.TG)
     print('Splitting done')
+
     # Write the multiplex training graph for multiverse in extended edgelist format 'layer n1 n2 weight'
     file_multi = open('heterogeneous_graph_' + 'processed' + '_'+ graph_name, 'w+')  
     tmp_array_het = []
-    
+    multiplex_het_relabelled = pd.read_csv(args.b, sep=' ', index_col=None, header=None)
     tmp_array_het = np.asarray(G_heterogeneous_split.edges)
+    tmp_array_het = np.asarray(G_heterogeneous_split.edges)#multiplex_het_relabelled[0]
+
     for i in range(len(tmp_array_het[:,0])):
-        if tmp_array_het[i,0] in list(multiplex_het_relabelled[0][1]):
+        if tmp_array_het[i,0] in list(multiplex_het_relabelled[1]):
             tmp = tmp_array_het[i,0]
             tmp_array_het[i,0] = tmp_array_het[i,1]
             tmp_array_het[i,1] = tmp
-            
-    
+
     tmp_array_het = np.hstack((tmp_array_het, np.ones((len(tmp_array_het),1))))
     tmp_array_het = np.hstack((np.ones((len(tmp_array_het),1)), tmp_array_het))
     tmp_array_het = np.vstack(tmp_array_het)
@@ -112,7 +114,7 @@ def main(args=None):
     np.savetxt(file_multi, tmp_array_het, fmt='%s', delimiter=' ', newline=os.linesep)
     
     file_multi.close()
-
+    os.replace('heterogeneous_graph_' + 'processed' + '_'+ graph_name, './Dataset/Multiplex_Het/'+ 'heterogeneous_graph_' + 'processed' + '_'+ graph_name+'.txt')
     
       
     ###################################################################################
@@ -122,9 +124,9 @@ def main(args=None):
     
     print('RWR-MH')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-              '-n', 'heterogeneous_graph_' + 'processed' + '_'+ graph_name,  \
+              '-n', args.n,  \
               '-m', args.m,  \
-              '-b', args.b, 
+              '-b', '../Dataset/Multiplex_Het/heterogeneous_graph_processed_'+ graph_name+'.txt', 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
 
     proc.wait()
@@ -164,7 +166,7 @@ def main(args=None):
     np.save(str('embeddings'),embeddings)
     date = datetime.datetime.now()
     os.rename('embeddings.npy', str('best_embeddings_Clustering'+'_'+graph_name+'_'+str(date)+'.npy'))
-    os.replace(str('best_embeddings_Clustering'+'_'+graph_name+'_'+str(date)+'.npy'), './Save_embeddings/'+ str('best_embeddings_Clustering'+'_'+graph_name+'_'+str(date)+'.npy'))
+
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
 
@@ -185,12 +187,6 @@ def main(args=None):
     ########################################################################
     # Analysis and saving of the results
     ######################################################################## 
- 
-    Result_file_dict = 'Result_LinkpredMultiplexHet_dict'+graph_name+'_Multi_'+str(date)+'.txt'
-    file = open(Result_file_dict,'w+')    
-    file.write(str(results_embeddings_methods))
-    file.close() 
-    os.replace(Result_file_dict, './Save_results/' + Result_file_dict)
     
     Result_file = 'Result_LinkpredMultiplex_'+graph_name+'_Multi_'+split_alg+'_'+str(date)+'.txt'
     with open(Result_file,"w+") as overall_result:
@@ -217,7 +213,7 @@ def main(args=None):
        
   
     overall_result.close() 
-    os.replace(Result_file, './Save_results/'+ Result_file)
+    os.replace(Result_file, './ResultsMultiVERSE/'+ Result_file)
     
     print('End')
 

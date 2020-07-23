@@ -48,6 +48,8 @@ To use the example, you can write in a terminal the following command:
 
 `python3 MultiVERSE_M.py -k 0`
 
+The output is 
+
 ## MultiVERSE on multiplex-heterogeneous network:
 
 **MultiVERSE_MH.py**
@@ -127,9 +129,9 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 Eval_MultiVERSE_MH.py -n ../Dataset/Multiplex_Het/Multiplex_1.txt \
-			  -m ../Dataset/Multiplex_Het/Multiplex_2.txt \
-			  -b ../Dataset/Multiplex_Het/heterogeneous_graph.txt`
+`python3 Eval_MultiVERSE_MH.py -m ../Dataset/Multiplex_Het/Multiplex_1.txt \
+                               -n ../Dataset/Multiplex_Het/Multiplex_2.txt \
+                               -b ./Dataset/Multiplex_Het/bipartie_2colformat.csv`
 			   
 ## Usage of the RWR files:
 
