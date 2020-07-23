@@ -8,7 +8,7 @@ Created on Sat May 25 08:20:28 2019
 
 import numpy as np
 import scipy as sc
-from numba import jit, njit, prange, autojit
+from numba import jit, njit, prange
 import math
 from numpy.random import choice
 from sklearn.preprocessing import normalize
