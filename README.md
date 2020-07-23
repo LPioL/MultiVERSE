@@ -14,7 +14,7 @@ Python 3:
 * rpy2
 * gensim (fast_version enabled)
 * networkx=2.2
-* numba=0.51
+* numba=0.50.1
 * scikit-learn=0.21.3 (for evaluation)
 * pandas
 
