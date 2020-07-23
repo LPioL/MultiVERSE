@@ -74,7 +74,7 @@ def main(args=None):
               '-n', args.n,  \
               '-m', args.m,  \
               '-b', args.b, 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number])
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
     proc.wait()
     proc.kill()
