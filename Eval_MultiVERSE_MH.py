@@ -52,7 +52,7 @@ def main(args=None):
     ########################################################################
     EMBED_DIMENSION = 128
     CLOSEST_NODES = np.int64(300)
-    NUM_SAMPLED = np.int64(10))
+    NUM_SAMPLED = np.int64(10)
     LEARNING_RATE = np.float64(0.01)
     KL = False
     NB_CHUNK = np.int64(1)
