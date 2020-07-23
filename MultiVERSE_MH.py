@@ -1,14 +1,9 @@
-
-
-
-
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jul 24 11:09:00 2019
 
 @author: Léo Pio-Lopez
 """
-
 
 import subprocess
 import numpy as np
@@ -78,7 +73,8 @@ def main(args=None):
 
     proc.wait()
     proc.kill()
-    
+    print('RWR done')
+      
     r_DistancematrixPPI = r_readRDS('./ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name +'.rds') 
 
     import gc

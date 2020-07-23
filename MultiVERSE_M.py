@@ -58,8 +58,9 @@ def main(args=None):
     proc.wait() 
     pid = proc.pid 
     proc.kill()
-    os.system('module unload R/3.4.0')
 
+    print('RWR done')
+    
     r_DistancematrixPPI = r_readRDS('./ResultsRWR/MatrixSimilarityMultiplex'+graph_name +'.rds') 
 
     gc.collect()

@@ -1,7 +1,3 @@
-
-
-
-
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jul 24 11:09:00 2019
@@ -127,14 +123,11 @@ def main(args=None):
               '-n', args.n,  \
               '-m', args.m,  \
               '-b', '../Dataset/Multiplex_Het/heterogeneous_graph_processed_'+ graph_name+'.txt', 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c','40'])
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
-    proc.wait()
-
-    
+    proc.wait() 
     proc.kill()
-
-    print('bye')
+    print('RWR done')
     
     r_DistancematrixPPI = r_readRDS('./ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name +'.rds') 
 
@@ -163,9 +156,9 @@ def main(args=None):
     
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
-    np.save(str('embeddings'),embeddings)
+    np.save('embeddings_MH',embeddings)
     date = datetime.datetime.now()
-    os.rename('embeddings.npy', str('best_embeddings_Clustering'+'_'+graph_name+'_'+str(date)+'.npy'))
+    os.replace('embeddings_MH.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
 
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
