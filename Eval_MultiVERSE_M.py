@@ -165,6 +165,7 @@ def main(args=None):
         ######################################################################## 
 
     edge_emb = ['hadamard', 'weighted_l1', 'weighted_l2', 'average', 'cosine']
+    results_embeddings_methods = dict()
     for layer in range(nb_layers-1):   
         for i in range (len(edge_emb)):
             tmp_result_multiverse = nee[layer].evaluate_ne(data_split=nee[layer].traintest_split, X=X, method="Multiverse", edge_embed_method=edge_emb[i],
