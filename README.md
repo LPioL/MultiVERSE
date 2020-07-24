@@ -31,7 +31,7 @@ R>=3.6.1:
 
 A good way to set up the appropriate environement is to create one with anaconda:
 
-'conda create  --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib'
+'conda create --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib'
 
 ## MultiVERSE on multiplex network:
 
@@ -48,7 +48,7 @@ To use the example, you can write in a terminal the following command:
 
 `python3 MultiVERSE_M.py -k 0`
 
-The output is 
+The output of this command is the embedding 'embedding_M.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the indes as key and the corresponding embedding as value.
 
 ## MultiVERSE on multiplex-heterogeneous network:
 
@@ -91,6 +91,8 @@ To use the example, you can write in a terminal the following command:
 `python3 MultiVERSE_MH.py -n ../Dataset/Multiplex_Het/Multiplex_1.txt \
 			  -m ../Dataset/Multiplex_Het/Multiplex_2.txt \
 			  -b ../Dataset/Multiplex_Het/heterogeneous_graph.txt`
+			  
+The output of this command is the embedding 'embedding_MH.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the indes as key and the corresponding embedding as value.
 
 **Eval_MultiVERSE_MH.py**
 
@@ -132,7 +134,9 @@ To use the example, you can write in a terminal the following command:
 `python3 Eval_MultiVERSE_MH.py -m ../Dataset/Multiplex_Het/Multiplex_1.txt \
                                -n ../Dataset/Multiplex_Het/Multiplex_2.txt \
                                -b ./Dataset/Multiplex_Het/bipartie_2colformat.csv`
-			   
+			
+The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the indes as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplex_Test_Eval.txt'. 
+ 
 ## Usage of the RWR files:
 
 In the RWR folder, you will find:

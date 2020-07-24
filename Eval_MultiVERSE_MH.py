@@ -15,7 +15,7 @@ import rpy2.robjects as robjects
 import networkx as nx
 from evalne.evaluation.evaluator import LPEvaluator
 from evalne.evaluation.score import Scoresheet
-import functions as f
+import utils as f
 from sklearn.linear_model import LogisticRegressionCV 
 from evalne.evaluation.split import EvalSplit
 import pandas as pd
@@ -156,13 +156,13 @@ def main(args=None):
     
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
-    np.save('embeddings_MH',embeddings)
-    date = datetime.datetime.now()
-    os.replace('embeddings_MH.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
+
 
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
-
+    np.save('embeddings_MH', X)
+    date = datetime.datetime.now()
+    os.replace('embeddings_MH.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
 
              
         ########################################################################

@@ -12,7 +12,7 @@ import os
 import datetime
 import rpy2.robjects as robjects
 import networkx as nx
-import functions as f
+import utils as f
 import pandas as pd
 import networkx as nx
 import multiprocessing
@@ -83,13 +83,8 @@ def main(args=None):
         ########################################################################
         # Processing of the network
         ########################################################################
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr \
-     = f.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr = f.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
      
-    np.save('nodes', nodes)
-    np.save('data', data_DistancematrixPPI)
-    np.save('nodesstr_drug', nodesstr)
-
 
         ########################################################################
         # Initialization
@@ -106,11 +101,13 @@ def main(args=None):
     
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
-    np.save(str('embeddings'),embeddings)
-
-
-
-
+ 
+    X = dict(zip(range(embeddings.shape[0]), embeddings))
+    X = {str(int(nodesstr[key])+1): X[key] for key in X}
+    np.save('embeddings_MH',X)
+    date = datetime.datetime.now()
+    os.replace('embeddings_MH.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
+    
 if __name__ == "__main__":
     main()
     
