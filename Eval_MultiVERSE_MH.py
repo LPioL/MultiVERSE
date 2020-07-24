@@ -58,9 +58,10 @@ def main(args=None):
     train_frac =0.7
     solver = 'lbfgs'
     max_iter= 1000
-    split_alg = 'random' # random naive fast spanning_tree
-    lp_model = LogisticRegressionCV(Cs=10, cv= 5, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1.0, max_iter=max_iter, \
-                        multi_class='ovr', n_jobs=42, random_state=None, refit=True, scoring='roc_auc', solver=solver, tol=0.0001, verbose=0) 
+    split_alg = 'random'
+    lp_model = RandomForestClassifier(n_estimators=400, criterion='gini', max_depth=10, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, \
+                                                      max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True,\
+                                                      oob_score=True, n_jobs=cpu_number, random_state=777, verbose=0, warm_start=False) 
     
     # Load graph for EvalNE
     graph_name = 'Test_Eval'
