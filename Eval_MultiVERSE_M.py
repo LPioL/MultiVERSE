@@ -157,6 +157,7 @@ def main(args=None):
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings_M'),embeddings)
+    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_M.npy')
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
 

@@ -71,10 +71,6 @@ def main(args=None):
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, neighborhood, nodesstr \
      = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
-     
-    np.save('nodes', nodes)
-    np.save('data', data_DistancematrixPPI)
-    np.save('nodesstr', nodesstr)
 
         ########################################################################
         # Initialization
