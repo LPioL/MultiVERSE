@@ -48,7 +48,7 @@ To use the example, you can write in a terminal the following command:
 
 `python3 MultiVERSE_M.py -k 0`
 
-The output of this command is the embedding 'embedding_M.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the indes as key and the corresponding embedding as value.
+The output of this command is the embedding 'embedding_M.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value.
 
 ## MultiVERSE on multiplex-heterogeneous network:
 
