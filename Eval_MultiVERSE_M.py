@@ -28,7 +28,7 @@ from openne.node2vec import Node2vec
 from openne.line import LINE
 from openne.graph import Graph as Gr
 import shutil
-import functions_tricks_numba as fnumba
+import utils as f
 from sklearn.linear_model import LogisticRegressionCV 
 import pandas as pd
 from evalne.evaluation.score import Scoresheet
@@ -87,7 +87,7 @@ def main(args=None):
     Gsplit = list()
     traintestsplit = list()
     for layer in range(nb_layers-1):
-        G_original.append(fnumba.preprocess('./Save_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, '.', ' ', directed = False,  relabel = False, del_self_loops = True))
+        G_original.append(f.preprocess('./Save_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, '.', ' ', directed = False,  relabel = False, del_self_loops = True))
         G_original_traintest_split = EvalSplit()
         G_original_traintest_split.compute_splits(G_original[layer], split_alg=split_alg, train_frac=train_frac, owa=False)
         traintestsplit.append(G_original_traintest_split)
@@ -145,7 +145,7 @@ def main(args=None):
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, nodesstr \
-     = fnumba.netpreprocess_optimized(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
+     = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
 
         ########################################################################
         # Initialization
@@ -159,7 +159,7 @@ def main(args=None):
 
     nodes= np.asarray(nodes)
     
-    embeddings = fnumba.train_optimized(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
+    embeddings = f.train_optimized(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
     np.save(str('embeddings'),embeddings)
     date = datetime.datetime.now()
