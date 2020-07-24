@@ -167,6 +167,7 @@ def main(args=None):
 
     edge_emb = ['hadamard', 'weighted_l1', 'weighted_l2', 'average', 'cosine']
     results_embeddings_methods = dict()
+    date = datetime.datetime.now()
     for layer in range(nb_layers-1):   
         for i in range (len(edge_emb)):
             tmp_result_multiverse = nee[layer].evaluate_ne(data_split=nee[layer].traintest_split, X=X, method="Multiverse", edge_embed_method=edge_emb[i],
@@ -198,12 +199,7 @@ def main(args=None):
     results_embeddings_methods['Multiverse_av_cosine'] = tmp_Multiverse_Result_cos/(nb_layers-1)
    
  
-    Result_file_dict = 'Result_LinkpredMultiplex_dict'+graph_name+'_Multi_'+str(date)+'.txt'
-    file = open(Result_file_dict,'w+')    
-    file.write(str(results_embeddings_methods))
-    file.close() 
-    os.replace(Result_file_dict, './Save_results/' + Result_file_dict)
-    
+    # Save results   
     Result_file = 'Result_LinkpredMultiplex_'+graph_name+split_alg+'_'+str(date)+'.txt'
     with open(Result_file,"w+") as overall_result:
        print("%s: \n\
