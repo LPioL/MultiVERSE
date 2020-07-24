@@ -47,13 +47,10 @@ def main(args=None):
     Test_networks = ['./Dataset/Multiplex/CKM-Physicians-Innovation_multiplex.edges']
     graph_path = Test_networks[args.k]
     
-
-    
     ########################################################################
     # Parameters multiverse and train/test
     ########################################################################
     
-       
     EMBED_DIMENSION = 128   
     CLOSEST_NODES = np.int64(20)
     NUM_SAMPLED = np.int64(3)
@@ -141,30 +138,21 @@ def main(args=None):
     proc.wait()
     pid = proc.pid 
     proc.kill()
-    os.system('module unload R/3.4.0')
     print('RWR done')
     r_DistancematrixPPI = r_readRDS('./ResultsRWR/MatrixSimilarityMultiplex'+graph_name +'.rds') 
-
-    import gc
-    gc.collect()
 
         ########################################################################
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, nodesstr \
      = fnumba.netpreprocess_optimized(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
-     
-    np.save('nodes', nodes)
-    np.save('data', data_DistancematrixPPI)
-    np.save('nodesstr', nodesstr)
 
         ########################################################################
         # Initialization
         ######################################################################## 
 
     embeddings = np.random.normal(0, 1, [np.size(nodes), EMBED_DIMENSION])
-
-             
+         
         ########################################################################
         # Training and saving best embeddings   
         ######################################################################## 
@@ -197,11 +185,7 @@ def main(args=None):
     tmp_Multiverse_Result_wL2 = 0
     tmp_Multiverse_Result_avg = 0
     tmp_Multiverse_Result_cos = 0
-    tmp_common_Result = 0
-    tmp_jaccard_Result = 0
-    tmp_adamic_Result = 0
-    tmp_prefattach_Result=0
-    
+
     for layer in range(nb_layers-1):
         tmp_Multiverse_Result_hada += results_embeddings_methods['Multiverse'+'_'+str(layer) + str(edge_emb[0])]
         tmp_Multiverse_Result_wl1 += results_embeddings_methods['Multiverse'+'_'+str(layer) + str(edge_emb[1])]
@@ -209,22 +193,12 @@ def main(args=None):
         tmp_Multiverse_Result_avg += results_embeddings_methods['Multiverse'+'_'+str(layer) + str(edge_emb[3])]
         tmp_Multiverse_Result_cos += results_embeddings_methods['Multiverse'+'_'+str(layer) + str(edge_emb[4])]
 
-        tmp_common_Result += results_embeddings_methods['common_neighbours'+'_'+str(layer)]
-        tmp_jaccard_Result += results_embeddings_methods['jaccard_coefficient'+'_'+str(layer)]
-        tmp_adamic_Result += results_embeddings_methods['adamic_adar_index'+'_'+str(layer)] 
-        tmp_prefattach_Result += results_embeddings_methods['preferential_attachment'+'_'+str(layer)]
-      
-
     results_embeddings_methods['Multiverse_av_hadamard'] = tmp_Multiverse_Result_hada/(nb_layers-1)
     results_embeddings_methods['Multiverse_av_weighted_l1'] = tmp_Multiverse_Result_wl1/(nb_layers-1)
     results_embeddings_methods['Multiverse_av_weighted_l2'] = tmp_Multiverse_Result_wL2/(nb_layers-1)
     results_embeddings_methods['Multiverse_av_average'] = tmp_Multiverse_Result_avg/(nb_layers-1)
     results_embeddings_methods['Multiverse_av_cosine'] = tmp_Multiverse_Result_cos/(nb_layers-1)
    
-    results_embeddings_methods['common_neighbours'] =  tmp_common_Result/(nb_layers-1)
-    results_embeddings_methods['jaccard_coefficient'] = tmp_jaccard_Result/(nb_layers-1)
-    results_embeddings_methods['adamic_adar_index'] =  tmp_adamic_Result/(nb_layers-1)
-    results_embeddings_methods['preferential_attachment'] = tmp_prefattach_Result/(nb_layers-1)
  
     Result_file_dict = 'Result_LinkpredMultiplex_dict'+graph_name+'_Multi_'+str(date)+'.txt'
     file = open(Result_file_dict,'w+')    
@@ -256,8 +230,6 @@ def main(args=None):
        print('Overall MULTIVERSE AUC cosine:', results_embeddings_methods['Multiverse_av_cosine'], file=overall_result)
             
 
-       
-       
     overall_result.close() 
     os.replace(Result_file, './Save_results/'+ Result_file)
     
