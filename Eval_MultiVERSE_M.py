@@ -154,12 +154,9 @@ def main(args=None):
 
     nodes= np.asarray(nodes)
     
-    embeddings = f.train_optimized(nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
+    embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
-    np.save(str('embeddings'),embeddings)
-    date = datetime.datetime.now()
-    os.rename('embeddings.npy', str('best_embeddings_LP'+'_'+graph_name+'_'+str(date)+'.npy'))
-    os.replace(str('best_embeddings_LP'+'_'+graph_name+'_'+str(date)+'.npy'), './Save_embeddings/'+ str('best_embeddings_LP'+'_'+graph_name+'_'+str(date)+'.npy'))
+    np.save(str('embeddings_M'),embeddings)
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
 
