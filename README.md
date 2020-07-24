@@ -241,7 +241,6 @@ Type on the command line the following command:
 
 `Rscript GenerateSimMatrix_MH.R -n Networks/m1_toy.txt -m Networks/m2_toyMulti.txt -b Networks/bipartite_toy.txt -o example`
 
-<img src='Figures/Multiplex-Heterogeneous_Toy.png' align="center">
 
 **3.- EdgelistToMultiplex.R**
 
