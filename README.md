@@ -88,8 +88,8 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 MultiVERSE_MH.py -n ../Dataset/Multiplex_Het/Multiplex_1.txt 
-			  -m ../Dataset/Multiplex_Het/Multiplex_2.txt 
+`python3 MultiVERSE_MH.py -m ../Dataset/Multiplex_Het/Multiplex_1.txt 
+			  -n ../Dataset/Multiplex_Het/Multiplex_2.txt 
 			  -b ../Dataset/Multiplex_Het/heterogeneous_graph.txt`
 			  
 The output of this command is the embedding 'embedding_MH.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value.
@@ -135,7 +135,7 @@ To use the example, you can write in a terminal the following command:
                                -n ../Dataset/Multiplex_Het/Multiplex_2.txt 
                                -b ./Dataset/Multiplex_Het/bipartie_2colformat.csv`
 			
-The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the indes as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplex_Test_Eval.txt'. 
+The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplex_Test_Eval.txt'. 
  
 ## Usage of the RWR files:
 
