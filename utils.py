@@ -98,7 +98,8 @@ def jsd_matrix(data):
             jsd_matrix[i,j] = jsd_compute(data[i,:], data[j,:])
     data = jsd_matrix 
     return data
-        
+      
+# from EvalNE  
 def preprocess(inpath, outpath, delimiter, directed, relabel, del_self_loops):
     """
     Graph preprocessing routine.
@@ -173,6 +174,29 @@ def eval_other(nee, edge_emb):
         nee.evaluate_cmd(method_name=methods[i], method_type='ne', command=command,
                          edge_embedding_methods=edge_embedding_methods, input_delim=' ', output_delim=' ',
                          tune_params=tune_params[i])
+
+# from MNE
+def load_network_data(f_name):
+    # This function is used to load multiplex data
+    print('We are loading data from:', f_name)
+    edge_data_by_type = dict()
+    all_edges = list()
+    all_nodes = list()
+    with open(f_name, 'r') as f:
+        for line in f:
+            words = line[:-1].split(' ')
+            if words[0] not in edge_data_by_type:
+                edge_data_by_type[words[0]] = list()
+            edge_data_by_type[words[0]].append((words[1], words[2]))
+            all_edges.append((words[1], words[2]))
+            all_nodes.append(words[1])
+            all_nodes.append(words[2])
+    all_nodes = list(set(all_nodes))
+    # create common layer.
+    all_edges = list(set(all_edges))
+    edge_data_by_type['Base'] = all_edges
+    print('Finish loading data')
+    return edge_data_by_type, all_edges, all_nodes
 
 def get_scores(nee, res, results):
     # Check the results

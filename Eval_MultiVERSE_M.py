@@ -8,10 +8,8 @@ Created on Wed Jul 24 11:09:00 2019
 from sklearn.metrics import roc_auc_score
 import math
 import subprocess
-import Node2Vec_LayerSelect
 import numpy as np
 import argparse
-from MNE_LP_v2 import load_network_data
 import sys
 import os
 import datetime
@@ -24,9 +22,6 @@ from evalne.evaluation.evaluator import LPEvaluator
 from evalne.evaluation.split import EvalSplit
 from evalne.evaluation.score import Scoresheet
 from evalne.utils import preprocess as pp
-from openne.node2vec import Node2vec
-from openne.line import LINE
-from openne.graph import Graph as Gr
 import shutil
 import utils as f
 from sklearn.linear_model import LogisticRegressionCV 
@@ -68,7 +63,7 @@ def main(args=None):
     lp_model = LogisticRegressionCV(Cs=10, cv= 5, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1.0, max_iter=max_iter, \
                         multi_class='ovr', n_jobs=42, random_state=None, refit=True, scoring='roc_auc', solver=solver, tol=0.0001, verbose=0) 
 
-    edge_data_by_type, _, all_nodes = load_network_data(graph_path)
+    edge_data_by_type, _, all_nodes = f.load_network_data(graph_path)
     nb_layers = len(edge_data_by_type.keys())
 
     # Divide multiplex graph in several in edgelist format
@@ -131,7 +126,7 @@ def main(args=None):
     ###################################################################################"
     r_readRDS = robjects.r['readRDS']
     
-    proc = subprocess.Popen(['Rscript',  './Multiverse-master_MH/GenerateSimMatrix.R', \
+    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
               '-n', '../Save_graphs/'+'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt', '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
@@ -144,7 +139,7 @@ def main(args=None):
         ########################################################################
         # Processing of the network
         ########################################################################
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, nodesstr \
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, neighborhood, nodesstr \
      = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
 
         ########################################################################
