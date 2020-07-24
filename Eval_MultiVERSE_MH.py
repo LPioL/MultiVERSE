@@ -182,7 +182,7 @@ def main(args=None):
     # Analysis and saving of the results
     ######################################################################## 
     
-    Result_file = 'Result_LinkpredMultiplex_'+graph_name+'_Multi_'+split_alg+'_'+str(date)+'.txt'
+    Result_file = 'Result_LinkpredMultiplexHet_'+graph_name+'_Multi_'+split_alg+'_'+str(date)+'.txt'
     with open(Result_file,"w+") as overall_result:
        print("%s: \n\
                 EMBED_DIMENSION: %s \n\

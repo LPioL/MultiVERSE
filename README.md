@@ -50,6 +50,26 @@ To use the example, you can write in a terminal the following command:
 
 The output of this command is the embedding 'embedding_M.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value.
 
+**Eval_MultiVERSE_M.py**
+
+
+The usage is the following:
+
+`python3 Eval_MultiVERSE_M.py [options] `
+
+          Options:
+
+          Options:
+                 -k NUMERIC
+                   Value of the position of the networks in the list 'Test_Networks'
+
+To use the example, you can write in a terminal the following command:
+
+`python3 Eval_MultiVERSE_M.py -k 0`
+			
+The output of this command is the embedding 'embedding_M_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The 
+command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplex_Test_Eval.txt'. 
+
 ## MultiVERSE on multiplex-heterogeneous network:
 
 **MultiVERSE_MH.py**
@@ -135,7 +155,7 @@ To use the example, you can write in a terminal the following command:
                                -n ../Dataset/Multiplex_Het/Multiplex_2.txt 
                                -b ./Dataset/Multiplex_Het/bipartie_2colformat.csv`
 			
-The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplex_Test_Eval.txt'. 
+The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplexHet_Test_Eval.txt'. 
  
 ## Usage of the RWR files:
 
