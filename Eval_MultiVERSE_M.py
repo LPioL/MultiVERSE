@@ -72,7 +72,7 @@ def main(args=None):
         tmp_array = np.asarray(edge_data_by_type[str(layer +1)])
         np.savetxt(file, tmp_array, fmt='%s')
         file.close()
-        os.replace('multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, 'Save_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name)
+        os.replace('multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, 'Generated_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name)
 
     
 
@@ -82,7 +82,7 @@ def main(args=None):
     Gsplit = list()
     traintestsplit = list()
     for layer in range(nb_layers-1):
-        G_original.append(f.preprocess('./Save_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, '.', ' ', directed = False,  relabel = False, del_self_loops = True))
+        G_original.append(f.preprocess('./Generated_graphs/'+'multiplex_graph_layer_' + str(layer+1) + '_'+ graph_name, '.', ' ', directed = False,  relabel = False, del_self_loops = True))
         G_original_traintest_split = EvalSplit()
         G_original_traintest_split.compute_splits(G_original[layer], split_alg=split_alg, train_frac=train_frac, owa=False)
         traintestsplit.append(G_original_traintest_split)
@@ -118,7 +118,7 @@ def main(args=None):
     np.savetxt(file_multi, tmp_array_multi, fmt='%s', delimiter=' ', newline=os.linesep)
     
     file_multi.close()
-    os.replace('multiverse_graph_' + 'training' + '_'+ graph_name, './Save_graphs/'+ 'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt')
+    os.replace('multiverse_graph_' + 'training' + '_'+ graph_name, './Generated_graphs/'+ 'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt')
 
 
     ###################################################################################"
@@ -127,7 +127,7 @@ def main(args=None):
     r_readRDS = robjects.r['readRDS']
     
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
-              '-n', '../Save_graphs/'+'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt', '-o', \
+              '-n', '../Generated_graphs/'+'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt', '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
     proc.wait()
@@ -200,7 +200,7 @@ def main(args=None):
    
  
     # Save results   
-    Result_file = 'Result_LinkpredMultiplex_'+graph_name+split_alg+'_'+str(date)+'.txt'
+    Result_file = 'Result_LinkpredMultiplex_'+graph_name+'_'+str(date)+'.txt'
     with open(Result_file,"w+") as overall_result:
        print("%s: \n\
                 EMBED_DIMENSION: %s \n\
