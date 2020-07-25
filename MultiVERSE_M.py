@@ -90,7 +90,7 @@ def main(args=None):
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
     np.save('embeddings_M',X)
     date = datetime.datetime.now()
-    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
+    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_M.npy')
 
     print('End')
 

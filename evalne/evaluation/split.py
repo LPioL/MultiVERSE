@@ -264,8 +264,8 @@ class EvalSplit(object):
         """
         # Compute train/test split
         if split_alg == 'random':
-            tr_E, te_E = stt.rand_split_train_test(G, train_frac)
-            train_E, test_E, G, mp = pp.relabel_nodes(tr_E, te_E, G.is_directed())
+            train_E, test_E = stt.rand_split_train_test(G, train_frac)
+            #train_E, test_E, G, mp = pp.relabel_nodes(tr_E, te_E, G.is_directed())
         elif split_alg == 'naive':
             train_E, test_E = stt.naive_split_train_test(G, train_frac)
         elif split_alg == 'spanning_tree':

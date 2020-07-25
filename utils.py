@@ -305,18 +305,7 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     
     # Normalization 
     rawdata_DistancematrixPPI  = normalize(rawdata_DistancematrixPPI, axis=1, norm='l1')
-    
-    if KL == True:
-        data_DistancematrixPPI = jsd_matrix(rawdata_DistancematrixPPI) 
-        np.save('jsd_ppi_tricks', data_DistancematrixPPI)
-        data_DistancematrixPPI=np.asarray(data_DistancematrixPPI)
-        data_DistancematrixPPI= 1 - data_DistancematrixPPI
-        data_DistancematrixPPI  = normalize(data_DistancematrixPPI, axis=1, norm='l1')   
-    
-    
-    else:
-       
-        data_DistancematrixPPI= rawdata_DistancematrixPPI
+    data_DistancematrixPPI= rawdata_DistancematrixPPI
     
     
     # Names of the nodes in the PPI network (a vocab in the sense of skipgram)

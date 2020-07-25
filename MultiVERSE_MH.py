@@ -66,10 +66,10 @@ def main(args=None):
     
     print('RWR-MH')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-              '-n', args.n,  \
-              '-m', args.m,  \
-              '-b', args.b, 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
+              '-n', '.' + args.n,  \
+              '-m', '.' + args.m,  \
+              '-b', '.' + args.b, 
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet' + graph_name, '-c', str(cpu_number)])
 
     proc.wait()
     proc.kill()

@@ -197,7 +197,7 @@ def main(args=None):
    
  
     # Save results   
-    Result_file = 'Result_LinkpredMultiplex_'+graph_name+'_'+str(date)+'.txt'
+    Result_file = 'Result_Linkpred_Multiplex_'+graph_name+'_'+str(date)+'.txt'
     with open(Result_file,"w+") as overall_result:
        print("%s: \n\
                 EMBED_DIMENSION: %s \n\

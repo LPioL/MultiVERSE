@@ -21,7 +21,7 @@ from evalne.evaluation.split import EvalSplit
 import pandas as pd
 import networkx as nx
 import multiprocessing
-
+from sklearn.ensemble import RandomForestClassifier
 
 
 
@@ -37,10 +37,6 @@ def main(args=None):
     args = parser.parse_args(args)
     print(args)
     
-    Test_networks = ['./Multiplex_Het/heterogeneous_graph.txt',
-                     './Multiplex_Het/Multiplex_1.txt',
-                     './Multiplex_Het/Multiplex_2.txt'] 
-
 
 
     ########################################################################
@@ -59,11 +55,10 @@ def main(args=None):
     solver = 'lbfgs'
     max_iter= 1000
     split_alg = 'random'
-    lp_model = RandomForestClassifier(n_estimators=400, criterion='gini', max_depth=10, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, \
+    lp_model = RandomForestClassifier(n_estimators=400, criterion='gini', max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, \
                                                       max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True,\
                                                       oob_score=True, n_jobs=cpu_number, random_state=777, verbose=0, warm_start=False) 
-    
-    # Load graph for EvalNE
+
     graph_name = 'Test_Eval'
     
     
@@ -80,28 +75,29 @@ def main(args=None):
     ###################################################################################
 
     data_bipartite = pd.read_csv(args.b, delimiter = ' ', header = None) 
+    data_bipartite = data_bipartite.drop(columns = [0,3])
+    data_bipartite.to_csv('bipartite_2colformat.csv', header=None, index= None, sep = ' ')
 
-    G_hetereogeneous = f.preprocess(args.b, '.', ' ', False,  False, True)
+    G_hetereogeneous = f.preprocess('bipartite_2colformat.csv', '.', ' ', False,  False, True)
     print('Preprocessing done')
     G_hetereogeneous_traintest_split = EvalSplit()
     G_hetereogeneous_traintest_split.compute_splits(G_hetereogeneous, split_alg=split_alg, train_frac=train_frac, owa=False)
     nee = LPEvaluator(G_hetereogeneous_traintest_split, dim=EMBED_DIMENSION, lp_model=lp_model)
     G_heterogeneous_split = (G_hetereogeneous_traintest_split.TG)
+    os.replace('bipartite_2colformat.csv', './Generated_graphs/'+ 'bipartite_2colformat.csv')
     print('Splitting done')
 
-    # Write the multiplex training graph for multiverse in extended edgelist format 'layer n1 n2 weight'
-    file_multi = open('heterogeneous_graph_' + 'processed' + '_'+ graph_name, 'w+')  
+    # Write the bipartite training graph for multiverse in extended edgelist format 'layer n1 n2 weight'
+    file_multi = open('bipartite_training_graph_'  + '_'+ graph_name, 'w+')  
     tmp_array_het = []
-    multiplex_het_relabelled = pd.read_csv(args.b, sep=' ', index_col=None, header=None)
     tmp_array_het = np.asarray(G_heterogeneous_split.edges)
-    tmp_array_het = np.asarray(G_heterogeneous_split.edges)#multiplex_het_relabelled[0]
-
     for i in range(len(tmp_array_het[:,0])):
-        if tmp_array_het[i,0] in list(multiplex_het_relabelled[1]):
+        if tmp_array_het[i,0] in list(data_bipartite[2]):
             tmp = tmp_array_het[i,0]
             tmp_array_het[i,0] = tmp_array_het[i,1]
             tmp_array_het[i,1] = tmp
 
+    print(z)
     tmp_array_het = np.hstack((tmp_array_het, np.ones((len(tmp_array_het),1))))
     tmp_array_het = np.hstack((np.ones((len(tmp_array_het),1)), tmp_array_het))
     tmp_array_het = np.vstack(tmp_array_het)
@@ -111,7 +107,7 @@ def main(args=None):
     np.savetxt(file_multi, tmp_array_het, fmt='%s', delimiter=' ', newline=os.linesep)
     
     file_multi.close()
-    os.replace('heterogeneous_graph_' + 'processed' + '_'+ graph_name, './Generated_graphs/'+ 'heterogeneous_graph_' + 'processed' + '_'+ graph_name+'.txt')
+    os.replace('bipartite_training_graph_'  + '_'+ graph_name, './Generated_graphs/'+ 'bipartite_training_graph_'  + '_'+ graph_name+'.txt')
     
       
     ###################################################################################
@@ -123,7 +119,7 @@ def main(args=None):
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
               '-n', args.n,  \
               '-m', args.m,  \
-              '-b', '../Generated_graphs/heterogeneous_graph_processed_'+ graph_name+'.txt', 
+              '-b', '../Generated_graphs/'+ 'bipartite_training_graph_'  + '_'+ graph_name+'.txt', 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
     proc.wait() 
@@ -139,7 +135,7 @@ def main(args=None):
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr \
-     = f.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
+     = f.netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES)
     
 
         ########################################################################
@@ -192,12 +188,11 @@ def main(args=None):
                 LEARNING_RATE: %s  \n\
                 CHUNK_SIZE: %s  \n\
                 NB_CHUNK: %s  \n\
-                KL: %s \n\
                 train_frac: %s \n\
                 solver: %s \n\
                 max_iter: %s  \n\
                 split_alg: %s  \n\
-                "% (str(date), EMBED_DIMENSION, CLOSEST_NODES, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, CHUNK_SIZE, NB_CHUNK, KL, train_frac, solver, max_iter, split_alg), file=overall_result)
+                "% (str(date), EMBED_DIMENSION, CLOSEST_NODES, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, CHUNK_SIZE, NB_CHUNK, train_frac, solver, max_iter, split_alg), file=overall_result)
              
        print('Overall MULTIVERSE AUC hadamard:', results_embeddings_methods['Multiverse_hadamard'], file=overall_result)
        print('Overall MULTIVERSE AUC weighted_l1:', results_embeddings_methods['Multiverse_weighted_l1'], file=overall_result)
