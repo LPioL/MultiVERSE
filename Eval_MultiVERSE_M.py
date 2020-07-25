@@ -120,9 +120,9 @@ def main(args=None):
     ###################################################################################"
     r_readRDS = robjects.r['readRDS']
     
-    proc = subprocess.Popen(['Rscript',  './Multiverse-master_MH/GenerateSimMatrix.R', \
+    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
               '-n', '../Generated_graphs/'+'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt', '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
+              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c', str(cpu_number)])
 
     proc.wait()
     pid = proc.pid 
@@ -154,7 +154,7 @@ def main(args=None):
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
     np.save('embeddings_M',X)
     date = datetime.datetime.now()
-    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
+    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_M.npy')
 
     print('Embedding done')
 
