@@ -40,14 +40,12 @@ rm(list=ls());cat('\014');if(length(dev.list()>0)){dev.off()}
 
 setwd("./RWR/")
 
-
-
 ## We load the R file containing the associated RWR functions.
 source("Functions_RWRMH.R")
 
 ## Installation and load of the required R Packages
 packages <- c("igraph", "mclust","Matrix","kernlab", "R.matlab","bc3net",
-              "optparse","parallel","tidyverse")
+              "optparse","parallel","tidyverse","doParallel")
 ipak(packages)
 
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
@@ -57,7 +55,7 @@ ipak(packages)
 ## Reading input arguments
 
 #!/usr/bin/env Rscript
-print("Reading arguments...")
+message("Reading arguments...")
 option_list = list(
   make_option(c("-n", "--network"), type="character", default=NULL, 
               help="Path to the multiplex network to be used as Input. It 
@@ -153,7 +151,7 @@ names(Layers) <-LayersNames
 
 ## In case the network is monoplex, we have to be aware of isolated nodes.
 if (Number_Layers == 1){
-  print("Dealing with isolated nodes...")
+  message("Dealing with isolated nodes...")
   IsolatedVertex <- V(Layers[[1]])$name[which(degree(Layers[[1]])==0)]
   mynetPrev <- Layers[[1]]
   Layers[[1]] <- delete.vertices(igraph::simplify(Layers[[1]]), 
@@ -176,37 +174,27 @@ numberNodes <- length(Allnodes)
 ## Apply Random Walk with Restart for each node of the network. 
 ## (Parallelise version)
 
-print("Computing RWR for every network node...")
-start_time <- Sys.time()
+###### Version using the package doParallel
 
-cl <- makeCluster(mc <- getOption("cl.cores", opt$cores))
+message("Computing RWR for every network node...")
 
-Allfuncs <- c("isMultiplex", "get.seed.scoresMultiplex", "geometric.mean", 
-            "regular.mean", "Random.Walk.Restart.Multiplex.default", "sumValues", 
-            "Random.Walk.Restart.Multiplex")
+cl <- parallel::makeForkCluster(mc <- getOption("cl.cores", opt$cores))
+doParallel::registerDoParallel(cl)
 
-clusterExport(cl=cl, varlist=c("Allnodes","AdjMatrixNorm","MultiplexObject",
-                               "opt",Allfuncs))
-clusterEvalQ(cl = cl, c("isMultiplex", "get.seed.scoresMultiplex", "geometric.mean", 
-                        "regular.mean", "Random.Walk.Restart.Multiplex.default", 
-                        "Random.Walk.Restart.Multiplex", "sumValues",  
-                        library("Matrix")))
+Results <- foreach(i = 1:length(Allnodes), .packages=c("Matrix") ) %dopar% {
+  Random.Walk.Restart.Multiplex.default(AdjMatrixNorm,MultiplexObject,
+  Allnodes[i],r=opt$restart,DispResults = "Alphabetic", MeanType="Sum")
+}
 
-Results <- parLapply(cl, Allnodes,function (x) 
-  Random.Walk.Restart.Multiplex(AdjMatrixNorm,MultiplexObject,x,r=opt$restart,
-                                DispResults = "Alphabetic", MeanType="Sum"))
-stopCluster(cl)
-end_time <- Sys.time()
+on.exit(stopCluster(cl))
 
-diff <- end_time - start_time
-print(paste0("Running Time RWR for every node: ", diff))
 
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
 #### Generation of the output Similarity Matrix
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
 
 ## Generation of the RWR similarity matrix
-print("Building Similarity Matrix...")
+message("Building Similarity Matrix...")
 RWRM_similarity <- matrix(data=0,nrow = numberNodes,ncol = numberNodes)
 
 for (j in seq(numberNodes)){
@@ -258,7 +246,7 @@ if (is.numeric(rownames(RWRM_similarity))){
 # as.matrix(RWRM_similarity)
 # colSums(RWRM_similarity)
 Similarity_outputfile <- paste0(opt$out,".rds")
-print(paste0("Saving file ", Similarity_outputfile))
+message(paste0("Saving file ", Similarity_outputfile))
 saveRDS(RWRM_similarity,file = Similarity_outputfile)
 
 

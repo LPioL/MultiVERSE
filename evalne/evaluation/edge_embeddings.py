@@ -29,6 +29,7 @@ def cosine(X, ebunch):
         i += 1
     return edge_embeds
 
+
 def average(X, ebunch):
     r"""
     Compute the edge embeddings all node pairs (u,v) in ebunch as the average of the embeddings of u and v.

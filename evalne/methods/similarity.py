@@ -13,7 +13,7 @@
 # TODO: the apply_prediction method should probably return a numpy array (like edge_embeddings does) rather than a list.
 
 from __future__ import division
-import math
+
 import networkx as nx
 import numpy as np
 
@@ -233,11 +233,7 @@ def adamic_adar_index(G, ebunch=None, neighbourhood='in'):
         If G is directed and neighbourhood is not one of 'in' or 'out'.
     """
     def predict(u, v):
-        result = sum(1 / np.log(G.degree(w)) for w in nx.common_neighbors(G, u, v))     
-        if result==0 or math.isnan(result) or math.isinf(result):
-            return 0
-        else:
-            return sum(1 / np.log(G.degree(w)) for w in nx.common_neighbors(G, u, v))
+        return sum(1.0 / np.log(G.degree(w)) for w in nx.common_neighbors(G, u, v))
 
     def predict_in(u, v):
         su = set(map(lambda e: e[0], G.in_edges(u)))

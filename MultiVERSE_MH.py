@@ -84,7 +84,7 @@ def main(args=None):
         # Processing of the network
         ########################################################################
         
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr = f.netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES)
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr = f.netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES)
      
         ########################################################################
         # Initialization

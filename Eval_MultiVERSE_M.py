@@ -5,19 +5,15 @@ Created on Wed Jul 24 11:09:00 2019
 @author: Léo Pio-Lopez
 """
 
-from sklearn.metrics import roc_auc_score
 import math
 import subprocess
 import numpy as np
-import argparse
 import sys
 import os
 import datetime
 from operator import itemgetter
 import rpy2.robjects as robjects
-import argparse
 import networkx as nx
-from evalne.methods import similarity
 from evalne.evaluation.evaluator import LPEvaluator
 from evalne.evaluation.split import EvalSplit
 from evalne.evaluation.score import Scoresheet
@@ -26,9 +22,8 @@ import shutil
 import utils as f
 from sklearn.linear_model import LogisticRegressionCV 
 import pandas as pd
-from evalne.evaluation.score import Scoresheet
-from sklearn.svm import SVC 
 import multiprocessing
+import argparse
 
 
 
@@ -50,18 +45,17 @@ def main(args=None):
     CLOSEST_NODES = np.int64(20)
     NUM_SAMPLED = np.int64(3)
     LEARNING_RATE = np.float64(0.01)
-    KL = False
     NB_CHUNK = np.int64(1)
     CHUNK_SIZE = np.int64(10)
     NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
     graph_name = os.path.basename(graph_path)    
     train_frac = 0.7
     solver = 'lbfgs'
-    max_iter= 1000
+    max_iter= 2000
     split_alg = 'spanning_tree' 
     
     lp_model = LogisticRegressionCV(Cs=10, cv= 5, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1.0, max_iter=max_iter, \
-                        multi_class='ovr', n_jobs=42, random_state=None, refit=True, scoring='roc_auc', solver=solver, tol=0.0001, verbose=0) 
+                        multi_class='ovr', n_jobs=cpu_number, random_state=None, refit=True, scoring='roc_auc', solver=solver, tol=0.0001, verbose=0) 
 
     edge_data_by_type, _, all_nodes = f.load_network_data(graph_path)
     nb_layers = len(edge_data_by_type.keys())
@@ -126,7 +120,7 @@ def main(args=None):
     ###################################################################################"
     r_readRDS = robjects.r['readRDS']
     
-    proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
+    proc = subprocess.Popen(['Rscript',  './Multiverse-master_MH/GenerateSimMatrix.R', \
               '-n', '../Generated_graphs/'+'multiverse_graph_' + 'training' + '_'+ graph_name+'.txt', '-o', \
               '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c','40'])
 
@@ -140,26 +134,29 @@ def main(args=None):
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, neighborhood, nodesstr \
-     = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
+     = f.netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES)
 
         ########################################################################
         # Initialization
         ######################################################################## 
-
     embeddings = np.random.normal(0, 1, [np.size(nodes), EMBED_DIMENSION])
-         
+
+             
         ########################################################################
         # Training and saving best embeddings   
         ######################################################################## 
 
     nodes= np.asarray(nodes)
-    
     embeddings = f.train(neighborhood, nodes, list_neighbours, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, \
                          CLOSEST_NODES, CHUNK_SIZE, NB_CHUNK, embeddings, reverse_data_DistancematrixPPI)
-    np.save(str('embeddings_M'),embeddings)
-    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_M.npy')
+
     X = dict(zip(range(embeddings.shape[0]), embeddings))
     X = {str(int(nodesstr[key])+1): X[key] for key in X}
+    np.save('embeddings_M',X)
+    date = datetime.datetime.now()
+    os.replace('embeddings_M.npy', './ResultsMultiVERSE/'+ 'embeddings_MH.npy')
+
+    print('Embedding done')
 
         ########################################################################
         # Evaluation on link prediction 
@@ -173,7 +170,7 @@ def main(args=None):
             tmp_result_multiverse = nee[layer].evaluate_ne(data_split=nee[layer].traintest_split, X=X, method="Multiverse", edge_embed_method=edge_emb[i],
             label_binarizer=lp_model)
             results_embeddings_methods[tmp_result_multiverse.method +'_' + str(layer) + str(edge_emb[i])] = tmp_result_multiverse.get_all()[1][4]
-
+    print('Evaluation done')
     
     ########################################################################
     # Analysis and saving of the results
@@ -210,12 +207,11 @@ def main(args=None):
                 LEARNING_RATE: %s  \n\
                 CHUNK_SIZE: %s  \n\
                 NB_CHUNK: %s  \n\
-                KL: %s \n\
                 train_frac: %s \n\
                 solver: %s \n\
                 max_iter: %s  \n\
                 split_alg: %s  \n\
-                "% (str(date), EMBED_DIMENSION, CLOSEST_NODES, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, CHUNK_SIZE, NB_CHUNK, KL, train_frac, solver, max_iter, split_alg), file=overall_result)
+                "% (str(date), EMBED_DIMENSION, CLOSEST_NODES, NUM_STEPS_1, NUM_SAMPLED, LEARNING_RATE, CHUNK_SIZE, NB_CHUNK, train_frac, solver, max_iter, split_alg), file=overall_result)
              
        print('Overall MULTIVERSE AUC hadamard:', results_embeddings_methods['Multiverse_av_hadamard'], file=overall_result)
        print('Overall MULTIVERSE AUC weighted_l1:', results_embeddings_methods['Multiverse_av_weighted_l1'], file=overall_result)

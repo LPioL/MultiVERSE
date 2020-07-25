@@ -111,7 +111,7 @@ def main(args=None):
     np.savetxt(file_multi, tmp_array_het, fmt='%s', delimiter=' ', newline=os.linesep)
     
     file_multi.close()
-    os.replace('heterogeneous_graph_' + 'processed' + '_'+ graph_name, './Dataset/Multiplex_Het/'+ 'heterogeneous_graph_' + 'processed' + '_'+ graph_name+'.txt')
+    os.replace('heterogeneous_graph_' + 'processed' + '_'+ graph_name, './Generated_graphs/'+ 'heterogeneous_graph_' + 'processed' + '_'+ graph_name+'.txt')
     
       
     ###################################################################################
@@ -123,7 +123,7 @@ def main(args=None):
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
               '-n', args.n,  \
               '-m', args.m,  \
-              '-b', '../Dataset/Multiplex_Het/heterogeneous_graph_processed_'+ graph_name+'.txt', 
+              '-b', '../Generated_graphs/heterogeneous_graph_processed_'+ graph_name+'.txt', 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
     proc.wait() 

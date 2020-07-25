@@ -222,7 +222,7 @@ def get_scores(nee, res, results):
 
     return names, res
 
-def netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES):
+def netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES):
     
     # Number of nodes in the network and computation of neighborrhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
@@ -275,15 +275,12 @@ def netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES):
         
     reverse_data_DistancematrixPPI=np.asarray(reverse_data_DistancematrixPPI)
     list_neighbours = np.asarray(list_neighbours)
-    
-    if KL==True:
-        list_neighbours = np.delete(list_neighbours, 0,1)
-    
+      
     reverse_data_DistancematrixPPI  = normalize(reverse_data_DistancematrixPPI[:,0:CLOSEST_NODES], axis=1, norm='l1')
     
     return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI,nodes_incomponent, neighborhood, nodesstr
      
-def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
+def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     
     # Number of nodes in the network and computation of neighborrhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
@@ -296,26 +293,20 @@ def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
     
     # If several components
     mini = []
-
-        
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
+    
     # change the diagonal and keep track of nodes of other components
     component=[]
     for i in range( 0,np.shape(rawdata_DistancematrixPPI)[0]):
         mini.append(np.min(rawdata_DistancematrixPPI[i,:][np.nonzero(rawdata_DistancematrixPPI[i,:])]))
         rawdata_DistancematrixPPI[i,i]= mini[i]
         rawdata_DistancematrixPPI[i,component]=mini[i]
-
-    
-    # to keep there
     rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
     
-
     # Normalization 
     rawdata_DistancematrixPPI  = normalize(rawdata_DistancematrixPPI, axis=1, norm='l1')
     
     if KL == True:
-
         data_DistancematrixPPI = jsd_matrix(rawdata_DistancematrixPPI) 
         np.save('jsd_ppi_tricks', data_DistancematrixPPI)
         data_DistancematrixPPI=np.asarray(data_DistancematrixPPI)
@@ -351,10 +342,7 @@ def netpreprocess_hetero(r_DistancematrixPPI, KL, CLOSEST_NODES):
     reverse_data_DistancematrixPPI=np.asarray(reverse_data_DistancematrixPPI)
     list_neighbours = np.asarray(list_neighbours)
     
-    if KL==True:
-        list_neighbours = np.delete(list_neighbours, 0,1)
     
-
     reverse_data_DistancematrixPPI  = reverse_data_DistancematrixPPI[:,0:CLOSEST_NODES]
     reverse_data_DistancematrixPPI  = normalize(reverse_data_DistancematrixPPI, axis=1, norm='l1')
     

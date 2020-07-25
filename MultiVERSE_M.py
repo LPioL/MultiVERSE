@@ -70,7 +70,7 @@ def main(args=None):
         # Processing of the network
         ########################################################################
     reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, nodes_incomponent, neighborhood, nodesstr \
-     = f.netpreprocess(r_DistancematrixPPI, graph_path, KL, CLOSEST_NODES)
+     = f.netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES)
 
         ########################################################################
         # Initialization
