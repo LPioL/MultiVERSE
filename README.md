@@ -153,7 +153,7 @@ To use the example, you can write in a terminal the following command:
 
 `python3 Eval_MultiVERSE_MH.py -m ./Dataset/Multiplex_Het/Multiplex_1.txt 
                                -n ./Dataset/Multiplex_Het/Multiplex_2.txt 
-                               -b ./Dataset/Multiplex_Het/bipartie_2colformat.csv`
+                               -b ./Dataset/Multiplex_Het/bipartie.txt`
 			
 The output of this command is the embedding 'embedding_MH_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The command will also generate the results of the evaluation in a .txt file 'Result_LinkpredMultiplexHet_Test_Eval.txt'. 
  
