@@ -18,6 +18,11 @@ from evalne.utils import preprocess as pp
 
 @njit
 def rand_choice_nb(arr, prob):
+    """
+    :param arr: A 1D numpy array of values to sample from.
+    :param prob: A 1D numpy array of probabilities for the given samples.
+    :return: A random sample from the given array with a given probability.
+    """
     return arr[np.searchsorted(np.cumsum(prob), np.random.random(), side="right")]
 
 @njit
@@ -165,7 +170,7 @@ def get_scores(nee, res, results):
 
 def netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES):
     
-    # Number of nodes in the network and computation of neighborhood
+    # Number of nodes in the network and computation of neighborrhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
     rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
     node_size = np.shape(rawdata_DistancematrixPPI)[0]
@@ -223,7 +228,7 @@ def netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES):
      
 def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     
-    # Number of nodes in the network and computation of neighborhood
+    # Number of nodes in the network and computation of neighborrhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
     rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
     node_size = np.shape(rawdata_DistancematrixPPI)[0]
@@ -231,6 +236,7 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     for i in range(node_size):
         neighborhood.append(np.shape(np.extract(rawdata_DistancematrixPPI[i,:] > 1/node_size, rawdata_DistancematrixPPI[i,:]))[0])
  
+
     # If several components
     mini = []
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
@@ -276,3 +282,18 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr
         
    
+
+def loadGraphFromEdgeListTxt(graph, directed=True):
+    with open(graph, 'r') as g:
+        if directed:
+            G = nx.DiGraph()
+        else:
+            G = nx.Graph()
+        for lines in g:
+            edge = lines.strip().split()
+            if len(edge) == 3:
+                w = float(edge[2])
+            else:
+                w = 1.0
+            G.add_edge(int(edge[0]), int(edge[1]), weight=w)
+    return G
