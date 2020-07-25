@@ -18,11 +18,6 @@ from evalne.utils import preprocess as pp
 
 @njit
 def rand_choice_nb(arr, prob):
-    """
-    :param arr: A 1D numpy array of values to sample from.
-    :param prob: A 1D numpy array of probabilities for the given samples.
-    :return: A random sample from the given array with a given probability.
-    """
     return arr[np.searchsorted(np.cumsum(prob), np.random.random(), side="right")]
 
 @njit
@@ -78,27 +73,7 @@ def knbrs(G, start, k):
     for l in range(k):
         nbrs = set((nbr for n in nbrs for nbr in G[n]))
     return nbrs
-    
-def jsd_compute(p, q, base=np.e):
-    '''
-        Implementation of pairwise `jsd` based on  
-        https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
-    '''
-    ## convert to np.array
-    p, q = np.asarray(p), np.asarray(q)
-    ## normalize p, q to probabilities
-    p, q = p/p.sum(), q/q.sum()
-    m = 1./2*(p + q)
-    return sc.stats.entropy(p,m, base=base)/2. + sc.stats.entropy(q, m, base=base)/2.
-    
-def jsd_matrix(data):
-    jsd_matrix = np.ones(np.shape(data))
-    for i in range( np.shape(data)[0]):
-        for j in range( np.shape(data)[0]):
-            jsd_matrix[i,j] = jsd_compute(data[i,:], data[j,:])
-    data = jsd_matrix 
-    return data
-      
+     
 # from EvalNE  
 def preprocess(inpath, outpath, delimiter, directed, relabel, del_self_loops):
     """
@@ -140,40 +115,6 @@ def eval_baselines(nee, directed, scoresheet):
             result = nee.evaluate_baseline(method=method)
             scoresheet.log_results(result)
 
-# from evalNE
-def eval_other(nee, edge_emb):
-    """
-    Experiment to test other embedding methods not integrated in the library.
-    """
-    print('Evaluating Embedding methods...')
-
-    # Set edge embedding methods
-    # Other options: 'weighted_l1', 'weighted_l2'
-    edge_embedding_methods = edge_emb
-
-
-    # Evaluate methods from OpenNE
-    # Set the methods
-    methods = ['node2vec', 
-        'deepwalk', 
-        #'GreRep'
-        'line']
-
-    # Set the commands
-    commands = [
-        'python -m openne --method node2vec --graph-format edgelist --number-walks 10 --walk-length 80 --workers 4',
-        'python -m openne --method deepWalk --graph-format edgelist --number-walks 10 --walk-length 80 --workers 4',
-        'python -m openne --method line --graph-format edgelist --epochs 100']
-    
-    # Set parameters to be tuned
-    tune_params = ['--p 0.5 1 --q 0.5 1', None, None, None]
-    
-    # For each method evaluate
-    for i in range(len(methods)):
-        command = commands[i] + " --input {} --output {} --representation-size {}"
-        nee.evaluate_cmd(method_name=methods[i], method_type='ne', command=command,
-                         edge_embedding_methods=edge_embedding_methods, input_delim=' ', output_delim=' ',
-                         tune_params=tune_params[i])
 
 # from MNE
 def load_network_data(f_name):
@@ -224,7 +165,7 @@ def get_scores(nee, res, results):
 
 def netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES):
     
-    # Number of nodes in the network and computation of neighborrhood
+    # Number of nodes in the network and computation of neighborhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
     rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
     node_size = np.shape(rawdata_DistancematrixPPI)[0]
@@ -282,7 +223,7 @@ def netpreprocess(r_DistancematrixPPI, graph_path, CLOSEST_NODES):
      
 def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     
-    # Number of nodes in the network and computation of neighborrhood
+    # Number of nodes in the network and computation of neighborhood
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
     rawdata_DistancematrixPPI= np.transpose(rawdata_DistancematrixPPI)
     node_size = np.shape(rawdata_DistancematrixPPI)[0]
@@ -290,7 +231,6 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     for i in range(node_size):
         neighborhood.append(np.shape(np.extract(rawdata_DistancematrixPPI[i,:] > 1/node_size, rawdata_DistancematrixPPI[i,:]))[0])
  
-    
     # If several components
     mini = []
     rawdata_DistancematrixPPI = np.array(r_DistancematrixPPI)
@@ -314,10 +254,8 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     if nodes[0] == 1:
         nodes = nodes - np.ones(len(nodes), dtype=int)
     nodesstr = [str(i) for i in nodes]
-    
-    # Context = WINDOW_SIZE nodes the most similar/closest
+  
     DistancematrixPPI = pd.DataFrame(data_DistancematrixPPI, nodesstr, nodesstr )
-    
     list_neighbours = []
     reverse_data_DistancematrixPPI = []
     for i in range(node_size):
@@ -338,18 +276,3 @@ def netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES):
     return reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr
         
    
-
-def loadGraphFromEdgeListTxt(graph, directed=True):
-    with open(graph, 'r') as g:
-        if directed:
-            G = nx.DiGraph()
-        else:
-            G = nx.Graph()
-        for lines in g:
-            edge = lines.strip().split()
-            if len(edge) == 3:
-                w = float(edge[2])
-            else:
-                w = 1.0
-            G.add_edge(int(edge[0]), int(edge[1]), weight=w)
-    return G
