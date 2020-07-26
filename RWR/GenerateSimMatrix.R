@@ -41,7 +41,7 @@ rm(list=ls());cat('\014');if(length(dev.list()>0)){dev.off()}
 setwd("./RWR/")
 
 ## We load the R file containing the associated RWR functions.
-source("Functions_RWRMH.R")
+source("Functions_RWRM.R")
 
 ## Installation and load of the required R Packages
 packages <- c("igraph", "mclust","Matrix","kernlab", "R.matlab","bc3net",
