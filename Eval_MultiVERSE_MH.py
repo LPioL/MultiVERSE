@@ -97,7 +97,6 @@ def main(args=None):
             tmp_array_het[i,0] = tmp_array_het[i,1]
             tmp_array_het[i,1] = tmp
 
-    print(z)
     tmp_array_het = np.hstack((tmp_array_het, np.ones((len(tmp_array_het),1))))
     tmp_array_het = np.hstack((np.ones((len(tmp_array_het),1)), tmp_array_het))
     tmp_array_het = np.vstack(tmp_array_het)
@@ -117,8 +116,8 @@ def main(args=None):
     
     print('RWR-MH')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix_MH.R', \
-              '-n', args.n,  \
-              '-m', args.m,  \
+              '-n', '.' + args.n,  \
+              '-m', '.' + args.m,  \
               '-b', '../Generated_graphs/'+ 'bipartite_training_graph_'  + '_'+ graph_name+'.txt', 
               '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
