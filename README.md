@@ -66,7 +66,7 @@ The usage is the following:
 
 To use the example, you can write in a terminal the following command:
 
-`python3 MultiVERSE_M.py -k 0`
+`python3 MultiVERSE_M.py -m ./Dataset/Multiplex/CKM-Physicians-Innovation_multiplex.edges`
 
 The output of this command is the embedding 'embedding_M.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value.
 
