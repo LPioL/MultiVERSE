@@ -31,11 +31,13 @@ import argparse
 def main(args=None):
           
     cpu_number = multiprocessing.cpu_count()     
-    parser = argparse.ArgumentParser(description='Position of the test networks')
-    parser.add_argument('-k', type=int, help='Test network')
+    
+    parser = argparse.ArgumentParser(description='Path of networks')
+    parser.add_argument('-m', type=str, help='Multiplex')
+ 
+    
     args = parser.parse_args(args)
-    Test_networks = ['./Dataset/Multiplex/CKM-Physicians-Innovation_multiplex.edges']
-    graph_path = Test_networks[args.k]
+    graph_path = args.m
     
     ########################################################################
     # Parameters multiverse and train/test

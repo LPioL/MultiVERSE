@@ -81,12 +81,12 @@ The usage is the following:
           Options:
 
           Options:
-                 -k NUMERIC
-                   Value of the position of the networks in the list 'Test_Networks'
+                 -m CHARACTER
+                   Path to the multiplex
 
 To use the example, you can write in a terminal the following command:
 
-`python3 Eval_MultiVERSE_M.py -k 0`
+`python3 Eval_MultiVERSE_M.py -m ./Dataset/Multiplex/CKM-Physicians-Innovation_multiplex.edges`
 			
 The output of this command is the embedding 'embedding_M_eval.npy' in the directory ResultsMultiVERSE. The embedding is a dictionary with the index as key and the corresponding embedding as value. The 
 command will also generate the results of the evaluation in a .txt file 'Result_Linkpred_Multiplex_Test_Eval.txt'. 
