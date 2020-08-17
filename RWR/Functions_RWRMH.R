@@ -800,7 +800,7 @@ Random.Walk.Restart.MultiplexHet <-
     if(missing(tau2)){
       tau2 <- rep(1,NumberLayers2)/NumberLayers2
     } else {
-      tau1 <- as.numeric(tau2)
+      tau2 <- as.numeric(tau2)
       if (sum(tau2)/NumberLayers2 != 1) {
         stop("The sum of the components of tau divided by the number of 
              layers should be 1")}
