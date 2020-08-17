@@ -135,7 +135,7 @@ To use the example, you can write in a terminal the following command:
 			  -n ./Dataset/Multiplex_Het/Multiplex_2.txt 
 			  -b ./Dataset/Multiplex_Het/bipartite.txt`
 			  
-If you don't have enough memory, you can use the toy example:
+If you don't have enough memory, you can use the toy example by changing the parameters in MultiVERSE_MH.py and by using the following command:
 
 `python3 MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/M1_toy.txt -m ./Dataset/Multiplex_Het/M2_toy.txt -b ./Dataset/Multiplex_Het/bipartite_toy.txt`
 			  
@@ -183,7 +183,7 @@ To use the example, you can write in a terminal the following command:
                                -n ./Dataset/Multiplex_Het/Multiplex_2.txt 
                                -b ./Dataset/Multiplex_Het/bipartite.txt`
                                
-If you don't have enough memory, you can use the toy example:
+If you don't have enough memory, you can use the toy example by changing the parameters in Eval_MultiVERSE_MH.py and by using the following command:
 
 `python3 Eval_MultiVERSE_MH.py -n ./Dataset/Multiplex_Het/M1_toy.txt -m ./Dataset/Multiplex_Het/M2_toy.txt -b ./Dataset/Multiplex_Het/bipartite_toy.txt`
 			
