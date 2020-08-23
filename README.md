@@ -79,8 +79,6 @@ The usage is the following:
 `python3 Eval_MultiVERSE_M.py [options] `
 
           Options:
-
-          Options:
                  -m CHARACTER
                    Path to the multiplex
 
