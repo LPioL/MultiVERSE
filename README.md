@@ -33,7 +33,7 @@ R>=3.6.1:
 
 A good way to set up the appropriate environement is to create one with anaconda:
 
-'conda create --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib'
+`conda create --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib`
 
 ## Folders
 
