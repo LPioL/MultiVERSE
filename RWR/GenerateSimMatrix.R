@@ -34,7 +34,6 @@
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
 #### Loading functions and external packages
 #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
-
 ## We clean the workspace
 rm(list=ls());cat('\014');if(length(dev.list()>0)){dev.off()}
 

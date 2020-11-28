@@ -42,22 +42,20 @@ def main(args=None):
     CLOSEST_NODES = np.int64(300)
     NUM_SAMPLED = np.int64(10)
     LEARNING_RATE = np.float64(0.01)
-    KL = False
     NB_CHUNK = np.int64(1)
     CHUNK_SIZE = np.int64(100)
     NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
     graph_name = 'test_MH'
     
 
-    # If toy example
-    #EMBED_DIMENSION = 128
-    #CLOSEST_NODES = np.int64(2)
-    #NUM_SAMPLED = np.int64(10)
-    #LEARNING_RATE = np.float64(0.01)
-    #KL = False
-    #NB_CHUNK = np.int64(1)
-    #CHUNK_SIZE = np.int64(2)
-    #NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
+    #If toy example
+    EMBED_DIMENSION = 128
+    CLOSEST_NODES = np.int64(2)
+    NUM_SAMPLED = np.int64(10)
+    LEARNING_RATE = np.float64(0.01)
+    NB_CHUNK = np.int64(1)
+    CHUNK_SIZE = np.int64(2)
+    NUM_STEPS_1 = np.int64(100*10**6/CHUNK_SIZE)
     
     
     ##################################################################################
@@ -93,7 +91,7 @@ def main(args=None):
         # Processing of the network
         ########################################################################
         
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr = f.netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES)
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, rawdata_DistancematrixPPI, neighborhood, nodesstr = f.netpreprocess(r_DistancematrixPPI, CLOSEST_NODES)
      
         ########################################################################
         # Initialization

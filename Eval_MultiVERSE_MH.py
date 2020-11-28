@@ -130,7 +130,7 @@ def main(args=None):
               '-n', '.' + args.n,  \
               '-m', '.' + args.m,  \
               '-b', '../Generated_graphs/'+ 'bipartite_training_graph_'  + '_'+ graph_name+'.txt', 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', '3'])
 
     proc.wait() 
     proc.kill()
@@ -144,8 +144,8 @@ def main(args=None):
         ########################################################################
         # Processing of the network
         ########################################################################
-    reverse_data_DistancematrixPPI, list_neighbours, nodes, data_DistancematrixPPI, neighborhood, nodesstr \
-     = f.netpreprocess_hetero(r_DistancematrixPPI, CLOSEST_NODES)
+    reverse_data_DistancematrixPPI, list_neighbours, nodes, rawdata_DistancematrixPPI, neighborhood, nodesstr \
+     = f.netpreprocess(r_DistancematrixPPI, CLOSEST_NODES)
     
 
         ########################################################################
