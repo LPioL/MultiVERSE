@@ -55,7 +55,7 @@ def main(args=None):
     print('RWR-M')
     proc = subprocess.Popen(['Rscript',  './RWR/GenerateSimMatrix.R', \
               '-n', "."+ args.m, '-o', \
-              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c',str(cpu_number)])
+              '../ResultsRWR/MatrixSimilarityMultiplex'+graph_name, '-c', str(cpu_number)])
 
     proc.wait() 
     pid = proc.pid 
