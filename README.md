@@ -1,7 +1,8 @@
 # MultiVERSE
 Embedding of Monoplex, Multiplex, Heterogeneous, Multiplex-Heterogeneous and full Multiplex-Heterogeneous Networks.
 
-You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding.
+You can find in this repository the necessary files to use MultiVERSE for multiplex end multiplex-heterogeneous network embedding. You can find the corresponding article on arxiv here: http://arxiv.org/abs/2008.10085
+
 In order to use MultiVERSE, you need the networks to be in extended edgelist format:
 
             edge_type source target weight
@@ -32,7 +33,7 @@ R>=3.6.1:
 
 A good way to set up the appropriate environement is to create one with anaconda:
 
-'conda create --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib'
+`conda create --name LP rpy2 gensim r numba spyder networkx=2.2 pandas  scikit-learn=0.21.3 joblib matplotlib`
 
 ## Folders
 
@@ -77,8 +78,6 @@ This program allows to apply link prediction as evaluation of the multiplex embe
 The usage is the following:
 
 `python3 Eval_MultiVERSE_M.py [options] `
-
-          Options:
 
           Options:
                  -m CHARACTER
