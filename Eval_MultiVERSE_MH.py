@@ -130,7 +130,7 @@ def main(args=None):
               '-n', '.' + args.n,  \
               '-m', '.' + args.m,  \
               '-b', '../Generated_graphs/'+ 'bipartite_training_graph_'  + '_'+ graph_name+'.txt', 
-              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', '3'])
+              '-o', '../ResultsRWR/MatrixSimilarityMultiplexHet'+graph_name, '-c', str(cpu_number)])
 
     proc.wait() 
     proc.kill()
